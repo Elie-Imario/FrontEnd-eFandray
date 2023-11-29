@@ -22,7 +22,7 @@ const AuthPage = () => {
     return (
         <div className="bloc-page">
             <div className="auth-container">
-                <div className="auth-limiter nextSlide">
+                <div className="auth-limiter">
                     <div id="login-section" className="auth-section">
                         <AuthHeader 
                             headerImgPath={'/images/Sign in-pana.png'}

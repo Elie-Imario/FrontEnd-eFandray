@@ -11,29 +11,34 @@ type Props = {
 }
 
 const AuthHeader : FC<Props> = ({headerImgPath, title, subTitle, textlead, btnSpan}) => {
-  return (
-    <div className="auth-header">
-        <div className="auth-header-img">
-            <img src={headerImgPath} />
-        </div>
-        <div className="auth-title">
-            <h1>{title}</h1>
-            <span>{subTitle}</span>
-            
-            <div className="other">
-                <Separator />
-                <div className="other-content">
-                    <span className="txt1">
-                        {textlead}
-                    </span>
-                    <button className="txt2">
-                        {btnSpan}
-                    </button>
+    const toogleAuthSlide = ()=>{
+        const authView = document.querySelector('.auth-limiter')
+        const currentSlide = document.querySelector('.nextSlide')
+        currentSlide ? authView?.classList.remove('nextSlide') : authView?.classList.add('nextSlide')
+    }
+    return (
+        <div className="auth-header">
+            <div className="auth-header-img">
+                <img src={headerImgPath} />
+            </div>
+            <div className="auth-title">
+                <h1>{title}</h1>
+                <span>{subTitle}</span>
+                
+                <div className="other">
+                    <Separator />
+                    <div className="other-content">
+                        <span className="txt1">
+                            {textlead}
+                        </span>
+                        <button className="txt2" onClick={toogleAuthSlide}>
+                            {btnSpan}
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-  )
+    )
 }
 
 export default AuthHeader;
