@@ -22,7 +22,7 @@ const AuthPage = () => {
     return (
         <div className="bloc-page">
             <div className="auth-container">
-                <div className="auth-limiter">
+                <div className="auth-limiter nextSlide">
                     <div id="login-section" className="auth-section">
                         <AuthHeader 
                             headerImgPath={'/images/Sign in-pana.png'}
@@ -68,56 +68,48 @@ const AuthPage = () => {
                     </div>
             
                     <div id="registration-section" className="auth-section">
-                        <div className="registration-header">
-                            <div className="registration-header-img">
-                                <img src="/images/man-holding-sign-up-form-2937684-2426382.png" alt="" />
+                        <AuthHeader 
+                            headerImgPath={'/images/man-holding-sign-up-form-2937684-2426382.png'}
+                            title={'Inscrivez vous!'}
+                            subTitle={'Demarrer une nouvelle aventure et faites de nouvelles connaissances avec e-fandray!'}
+                            textlead={'Déjà souscris à un compte?'}
+                            btnSpan={'Connectez-vous'}
+                        />
+                        <Box className="registration-wrap-form">    
+                            <div className="flex-row">
+                                <FormControl fullWidth className="wrap-input100">                        
+                                    <TextField fullWidth 
+                                        className="input100" 
+                                        label="Login" 
+                                        variant="standard" 
+                                    />
+                                </FormControl>
+                                <FormControl fullWidth className="wrap-input100">                        
+                                    <TextField fullWidth 
+                                        className="input100" 
+                                        label="Adresse e-mail" 
+                                        variant="standard" 
+                                    />
+                                </FormControl>
                             </div>
-                            <div className="registration100-form-title">
-                                <h1>Inscrivez vous!</h1>
-                                <span>Demarrer une nouvelle aventure et faites de nouvelles connaissances avec e-fandray!</span>
-                                <div className="other">
-                                    <Separator />
-                                    <div className="other-content">
-                                        <span className="txt1">
-                                            Déjà souscris à un compte? 
-                                        </span>
-                                        <button className="to-prev-slide txt2">
-                                            Connectez-vous
-                                        </button>
-                                    </div>
-                                </div>
+                            
+                            <div className="auth-btn-group">
+                                <button className="btn btn-primary" id="sign-up">
+                                    <FontAwesomeIcon icon='envelope' size='lg' /><span>S'inscrire</span> 
+                                </button>
                             </div>
-                        </div>
-                        <div className="registration-wrap-form">
-                            <form action="" className="registration_form">
-                                <div className="registration_form1">
-                                    <div className="wrap-input100">
-                                        <input className="input100" type="text" name="login" />
-                                        <span className="focus-input100" data-placeholder="Login"></span>
-                                    </div>
-                                    <div className="wrap-input100">
-                                        <input className="input100" type="text" name="email" />
-                                        <span className="focus-input100" data-placeholder="Adresse e-mail"></span>
-                                    </div>
-                                </div>
-                                <div className="container-registration100-form-btn">
-                                    <button className="registration100-form-btn">
-                                        <span><i className="fa fa-envelope"></i>S'inscrire</span> 
-                                    </button>
-                                </div>
-                            </form>
                             <div className="separator">
                                 <Separator />
                                 <span>ou</span>
                                 <Separator />
                             </div>
             
-                            <div className="registration_form2 container-registration100-form-btn">
-                                <button className="registration100-form-btn1">
-                                    <span><i className="fab fa-google"></i>Continuer avec Gmail</span> 
+                            <div className="auth-btn-group">
+                                <button className="btn btn-secondary">
+                                    <img src="/images/googleLogo.svg"/><span>Continuer avec Gmail</span> 
                                 </button>
                             </div>
-                        </div>    
+                        </Box> 
                     </div>
                 </div>
             </div>

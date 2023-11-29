@@ -26,7 +26,7 @@ const AuthHeader : FC<Props> = ({headerImgPath, title, subTitle, textlead, btnSp
                     <span className="txt1">
                         {textlead}
                     </span>
-                    <button className="to-next-slide txt2">
+                    <button className="txt2">
                         {btnSpan}
                     </button>
                 </div>
