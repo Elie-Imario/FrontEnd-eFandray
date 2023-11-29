@@ -1,0 +1,21 @@
+@import '../../assets/dist/import';
+
+.userCard{
+    @include flex($align: center, $justify: flex-start, $gap: 10px);
+    
+    .userInfo{
+        @include flex($direction:column, $align: flex-start, $justify: center, $gap: 10px);
+        span{
+            @include plusJakartaSansType($weight: 500);
+            color: $gray-700;
+            font-size: 18px;
+            &.state{
+                @include plusJakartaSansType($weight: 400);
+                font-size: 14px;
+                font-style: italic;
+                color: $gray-500;
+            }
+        }
+        
+    }
+}

@@ -1,0 +1,59 @@
+@import '../../assets/dist/import';
+
+.bloc-page.fullwidth{
+    .left-side{
+        max-width: 400px;    
+        height: 100vh;
+        width: 100%;
+        position: fixed;
+        z-index: 999;
+        background: $white;
+        padding: 1rem;
+        top: 0;
+        left: 0;
+
+        .header-section{
+            .account-info{
+                @include flex($align: center, $justify: space-between, $gap: 10px);
+                .btn{
+                    border: none;
+                    background: transparent;
+                    cursor: pointer;
+                    svg{
+                        @include flex($align: center, $justify:center);
+                        width: 20px;
+                        height: 20px;
+                        padding: 1rem;
+                        color: $white;
+                        border-radius: .3rem;
+                        background: rgba($color: $gray-300, $alpha: 1);
+                    }
+                }
+            }
+            .searchField{                
+                margin-top: 27px;
+            }
+        }
+
+        .msg-section{
+            margin-top: 25px;
+            .msg-tags{
+                @include flex($align: center, $justify: flex-start, $gap: 15px);
+                width: 100%;
+            }
+
+            .message-boxes{
+                height: 60vh;
+                overflow-y: auto;
+                margin-top: 20px;
+            }
+        }
+    }
+    .right-side{
+        width: 100%;
+        height: 100vh;
+        background: $gray-200;
+    }
+
+}
+

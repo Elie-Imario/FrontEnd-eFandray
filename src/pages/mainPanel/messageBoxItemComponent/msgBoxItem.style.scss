@@ -1,0 +1,30 @@
+@import '../../../assets/dist/import';
+
+.message-box{
+    padding: .75rem 0;
+    border-bottom: 1px solid $gray-200;
+    width: 100%;
+    @include flex($align: center, $justify: center, $gap: 10px);
+    cursor: pointer;
+
+    .msg-container{
+        @include flex($direction: column, $align: flex-start, $justify: flex-start, $gap: 2px);
+        width: calc(100% - 70px);
+    }
+    
+    .msg-container .username{
+        @include poppinsType($weight: 500);
+        font-size: 16px;
+        color: $gray-800;
+    }
+    
+    .msg-container .user-msg{
+        @include plusJakartaSansType($weight: 500);
+        color: $gray-600;
+        font-size: 14px;
+        width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis; 
+    }            
+}
