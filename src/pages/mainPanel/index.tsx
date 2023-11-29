@@ -8,6 +8,7 @@ import MsgBoxItem from "./messageBoxItemComponent";
 import { userLastMsgs } from "../../services/data/database.mockup";
 import { message } from "../../services/data/dataTypes";
 import './mainPanel.styles.scss';
+import { Box, FormControl } from "@mui/material";
 
 const MainPanel = () => {
     const [userLastMessages, setUserLastMsgs] = useState <message[]>(userLastMsgs)
@@ -59,9 +60,32 @@ const MainPanel = () => {
 
                     
                 <div className="right-side">
-                    {/* Chat-room-section */}
-                        {/* send-msgSection */}
-                    {/*  */}
+                    <div className="chat-room-section">
+
+                    </div>
+                    <div className="send-msgsection">
+                        <div className="btn_groups">
+                            <button className="btn btn-uploadFile">
+                                <FontAwesomeIcon icon="file" size="lg" />  
+                            </button>
+                            <button className="btn voice-recorder">
+                                <FontAwesomeIcon icon="microphone" size="lg" />  
+                            </button>
+                        </div>
+                        <Box className="wrap-input100">
+                            <FormControl className="input100" fullWidth>
+                                <TextField fullWidth
+                                    className="searchInput"
+                                    placeholder="Ecrire ici..."
+                                />
+                            </FormControl>
+                        </Box>
+                        <div className="btn_group">
+                            <button className="btn btn-send">
+                                <FontAwesomeIcon icon="paper-plane" size="lg" />  
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
