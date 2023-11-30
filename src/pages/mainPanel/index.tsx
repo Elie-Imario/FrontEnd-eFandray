@@ -179,6 +179,8 @@ const MainPanel = () => {
                                     onChange={({target: {value}}) =>{
                                         setMsg({...message, msgContent : value })
                                     }}
+                                    multiline
+                                    maxRows={2}
                                 />
                             </FormControl>
                         </Box>

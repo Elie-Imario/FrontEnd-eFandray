@@ -1,17 +1,18 @@
 @import '../../assets/dist/import';
 .tag{
     @include flex($align: center, $justify:center, $gap:5px);
-    background: rgba($color: $gray-200, $alpha: 1);
+    background: rgba($color: $blue, $alpha: .2); 
     max-width: 144px;
     width: 100%;
     padding: .5rem;
     border-radius: 1.5rem;
     cursor: pointer;
     &.active{
-        background: rgba($color: $gray-600, $alpha: 1);
+        background: rgba($color: $blue, $alpha: .7);  
         
         svg{
-            background: rgba($color: $gray-700, $alpha: 1);
+            background: rgba($color: $gray-500, $alpha: .2);
+            color: $white;
         }
         span{
             color: $white;
@@ -22,9 +23,9 @@
         width: 12px;
         height: 12px;
         padding: .5rem;
-        color: $white;
+        color: $gray-700;
         border-radius: 50%;
-        background: rgba($color: $gray-400, $alpha: 1);
+        background: rgba($color: $gray-600, $alpha: .2);
     }
     span{
         @include plusJakartaSansType($weight: 500);
