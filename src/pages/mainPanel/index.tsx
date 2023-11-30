@@ -12,15 +12,44 @@ import { Box, FormControl } from "@mui/material";
 import MsgBox from "./messageBoxComponent/MsgBox";
 import MsgBoxContent from "./messageBoxComponent/MsgBoxContent";
 
+
+
+type newMsg = {
+    msgContent: string,
+    fromUser: User,
+}
+
 const MainPanel = () => {
     const [userLastMessages, setUserLastMsgs] = useState <message[]>(userLastMsgs)
     const [conversation, setConversation] = useState<conversation>(conversations as conversation)
-    
+
     const connectedUser = {
         userId: 5,
         username: "Imarioa",
         profilPic: "/images/imarioa.jpg"
     } as User
+
+    const [message, setMsg] = useState<newMsg>({
+        msgContent: '',
+        fromUser: connectedUser
+    })
+
+    const handlePostNewMsg = ()=>{
+        const MSG = {
+            msgId: conversation.conversationMessage[conversation.conversationMessage.length - 1].msgId +1,
+            msgContent: message.msgContent,
+            fromUser: message.fromUser
+        } as message
+
+        conversation.conversationMessage.push(MSG)
+        setConversation({
+            ...conversation,
+            conversationMessage: conversation.conversationMessage
+            
+        })
+
+        setMsg({...message, msgContent: ""})
+    }
 
     return (
         <div className="main view-2">
@@ -59,8 +88,8 @@ const MainPanel = () => {
                         </div>
                         <div className="message-boxes">
                             {
-                                userLastMessages.map((item)=>{
-                                    return <MsgBoxItem widthImg={60} heightImg={60} profilPicPath={item.fromUser.profilPic} UserName={item.fromUser.username} UserMessage={item.msgContent}/>
+                                userLastMessages.map((item, index)=>{
+                                    return <MsgBoxItem key={index} widthImg={60} heightImg={60} profilPicPath={item.fromUser.profilPic} UserName={item.fromUser.username} UserMessage={item.msgContent}/>
                                 })   
                             }
                         </div>
@@ -72,12 +101,12 @@ const MainPanel = () => {
                     <div className="chat-room-section">
                         <div className="msg-box-section">
                             {
-                                conversation.conversationMessage.map((item)=>{
+                                conversation.conversationMessage.map((item, index)=>{
                                     return(
                                         item.fromUser.userId === connectedUser.userId ?
-                                        <MsgBox id_msg_owner="my-msg"><p>{item.msgContent}</p></MsgBox>
+                                        <MsgBox id_msg_owner="my-msg" key={index}><p>{item.msgContent}</p></MsgBox>
                                         :
-                                        <MsgBox id_msg_owner="orther-msg">
+                                        <MsgBox id_msg_owner="orther-msg" key={index}>
                                             <MsgBoxContent 
                                                 _picPath={item.fromUser.profilPic}
                                                 msgContent={item.msgContent}
@@ -103,11 +132,15 @@ const MainPanel = () => {
                                 <TextField fullWidth
                                     className="searchInput"
                                     placeholder="Ecrire ici..."
+                                    value={message.msgContent}
+                                    onChange={({target: {value}}) =>{
+                                        setMsg({...message, msgContent : value })
+                                    }}
                                 />
                             </FormControl>
                         </Box>
                         <div className="btn_group">
-                            <button className="btn btn-send">
+                            <button className="btn btn-send" onClick={handlePostNewMsg}>
                                 <FontAwesomeIcon icon="paper-plane" size="lg" />  
                             </button>
                         </div>
