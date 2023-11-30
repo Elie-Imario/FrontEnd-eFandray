@@ -5,13 +5,22 @@ import InputAdornment from '@mui/material/InputAdornment';
 import UserCard from '../../components/userCard';
 import Tag from '../../components/tag';
 import MsgBoxItem from "./messageBoxItemComponent";
-import { userLastMsgs } from "../../services/data/database.mockup";
-import { message } from "../../services/data/dataTypes";
+import { userLastMsgs, conversations } from "../../services/data/database.mockup";
+import { User, conversation, message } from "../../services/data/dataTypes";
 import './mainPanel.styles.scss';
 import { Box, FormControl } from "@mui/material";
+import MsgBox from "./messageBoxComponent/MsgBox";
+import MsgBoxContent from "./messageBoxComponent/MsgBoxContent";
 
 const MainPanel = () => {
     const [userLastMessages, setUserLastMsgs] = useState <message[]>(userLastMsgs)
+    const [conversation, setConversation] = useState<conversation>(conversations as conversation)
+    
+    const connectedUser = {
+        userId: 5,
+        username: "Imarioa",
+        profilPic: "/images/imarioa.jpg"
+    } as User
 
     return (
         <div className="main view-2">
@@ -19,7 +28,7 @@ const MainPanel = () => {
                 <div className="left-side">
                     <div className="header-section">
                         <div className="account-info">
-                            <UserCard UserName='Imarioa' Height={81} Width={81} ProfilPicPath={'/images/imarioa.jpg'}/>
+                            <UserCard UserName={connectedUser.username} Height={81} Width={81} ProfilPicPath={connectedUser.profilPic}/>
                             <button className='btn btn-settings'><FontAwesomeIcon icon="cog" size="lg" /></button>
                         </div>
                         <div className="searchField">                 
@@ -61,7 +70,24 @@ const MainPanel = () => {
                     
                 <div className="right-side">
                     <div className="chat-room-section">
-
+                        <div className="msg-box-section">
+                            {
+                                conversation.conversationMessage.map((item)=>{
+                                    return(
+                                        item.fromUser.userId === connectedUser.userId ?
+                                        <MsgBox id_msg_owner="my-msg"><p>{item.msgContent}</p></MsgBox>
+                                        :
+                                        <MsgBox id_msg_owner="orther-msg">
+                                            <MsgBoxContent 
+                                                _picPath={item.fromUser.profilPic}
+                                                msgContent={item.msgContent}
+                                            />
+                                        </MsgBox>
+                                        
+                                    )
+                                })
+                            }
+                        </div>
                     </div>
                     <div className="send-msgsection">
                         <div className="btn_groups">

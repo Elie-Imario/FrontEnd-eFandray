@@ -1,3 +1,12 @@
+
+
+export type conversation = {
+    conversationId: number,
+    convesationType: string,
+    conversationMember: number[],
+    conversationMessage: message[]
+}
+
 export type message = {
     msgId : number,
     msgContent: string,
@@ -9,3 +18,4 @@ export type User = {
     username: string,
     profilPic: string
 }
+

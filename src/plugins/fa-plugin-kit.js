@@ -5,7 +5,7 @@ import {
     faTimesCircle, faUser, faUsers, faPaperPlane, faFile,
     faChalkboardUser, faCog, faPowerOff, faSearch, faAngleDown, faAngleRight,
     faIdBadge, faEnvelope, faPhone, faDownload, faEdit, faMinus, faClock, faCheck,
-    faArrowUpRightFromSquare, faSave, faGraduationCap, faUserCircle, faKey, faPen,
+    faArrowUpRightFromSquare, faSave, faUserCircle, faKey, faPen,
     faCamera, faMicrophone, faUpload, faEye, faEyeSlash, faSignIn
 } from '@fortawesome/free-solid-svg-icons'
 
@@ -15,6 +15,6 @@ library.add(
     faUser, faUsers, faPaperPlane, faFile, faChalkboardUser, faCheck,
     faPowerOff, faSearch, faAngleDown, faIdBadge, faEnvelope, faPhone, faUpload,
     faDownload, faEdit, faMinus, faArrowUpRightFromSquare, faClock, faAngleRight,
-    faSave, faGraduationCap, faUserCircle, faPen, faCamera, faMicrophone,
+    faSave, faUserCircle, faPen, faCamera, faMicrophone,
     faKey, faEye, faEyeSlash, faSignIn, faExclamationCircle
 )

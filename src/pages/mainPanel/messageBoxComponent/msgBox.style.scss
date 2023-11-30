@@ -1,0 +1,37 @@
+@import '../../../assets/dist/import';
+
+.msg-box{
+    margin: 8px 0 18px 0;
+    overflow: hidden;
+    display: block;
+
+    &.hide{
+        display: none;
+    }
+    p{
+        display: block;
+        padding: 0.70rem;
+        border-radius: 5px;
+        max-width: 350px;
+        @include plusJakartaSansType($weight: 500);
+        font-size: 14px;
+        line-height: 1.5rem;
+        color: $gray-800;
+    }
+    .msg-box-other-content{
+        @include flex($align: center, $justify: flex-start, $gap: 15px);
+    }
+    
+}
+
+
+#my-msg p{
+    float: right;
+    background-color: $primary;
+}
+
+#orther-msg p
+{
+    float: left;
+    background: $white;
+}
