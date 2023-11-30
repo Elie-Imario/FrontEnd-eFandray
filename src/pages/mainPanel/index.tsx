@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -22,6 +22,11 @@ type newMsg = {
 const MainPanel = () => {
     const [userLastMessages, setUserLastMsgs] = useState <message[]>(userLastMsgs)
     const [conversation, setConversation] = useState<conversation>(conversations as conversation)
+    const ref = useRef<HTMLDivElement>(null)
+
+    useEffect(() => {
+        ref.current?.scrollIntoView({behavior: "smooth", block:"end"});
+    }, [conversation.conversationMessage.length]);
 
     const connectedUser = {
         userId: 5,
@@ -116,6 +121,7 @@ const MainPanel = () => {
                                     )
                                 })
                             }
+                            <div ref={ref} />
                         </div>
                     </div>
                     <div className="send-msgsection">
