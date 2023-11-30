@@ -23,8 +23,10 @@ const MainPanel = () => {
     const [userLastMessages, setUserLastMsgs] = useState <message[]>(userLastMsgs)
     const [conversation, setConversation] = useState<conversation>(conversations as conversation)
     const [newMessage, setNewMessage] = useState<message>({} as message)
+    const [file, setFile] = useState<File | undefined>(undefined)
     const [messageState, setMsgState] = useState(false)
     const ref = useRef<HTMLDivElement>(null)
+    const refUploadFIle = useRef<HTMLInputElement>(null)  
 
     useEffect(() => {
         ref.current?.scrollIntoView({behavior: "smooth", block:"end"});
@@ -40,6 +42,17 @@ const MainPanel = () => {
         msgContent: '',
         fromUser: connectedUser
     })
+
+    const handleUploadFile = () => {
+        refUploadFIle.current?.click()
+    }
+
+    const onChangeFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+        event.stopPropagation()
+        const selectedFiles = event.target.files as FileList;
+        setFile(selectedFiles?.[0])
+    }
+    
 
     const handlePostNewMsg = ()=>{
         const MSG = {
@@ -135,9 +148,24 @@ const MainPanel = () => {
                     </div>
                     <div className="send-msgsection">
                         <div className="btn_groups">
-                            <button className="btn btn-uploadFile">
-                                <FontAwesomeIcon icon="file" size="lg" />  
-                            </button>
+                            <div className="upload-group">
+                                <button className={file ? "btn btn-uploadFile active" : "btn btn-uploadFile"} onClick={handleUploadFile}>
+                                    <FontAwesomeIcon icon="file" size="lg" />  
+                                </button>
+                                <input
+                                    type="file"
+                                    id="upload"
+                                    name='upload_file'
+                                    hidden
+                                    ref={refUploadFIle}
+                                    onChange={onChangeFile}
+                                />
+                                {
+                                    file && <button type="button" className="btn- btn-cancel" onClick={()=>setFile(undefined)}>
+                                                <FontAwesomeIcon icon='times' size='lg'/>
+                                            </button>
+                                }
+                            </div>
                             <button className="btn voice-recorder">
                                 <FontAwesomeIcon icon="microphone" size="lg" />  
                             </button>
