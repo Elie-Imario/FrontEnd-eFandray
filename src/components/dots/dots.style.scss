@@ -1,0 +1,75 @@
+@import '../../assets/dist/import';
+
+.dots-statement{
+    @include flex($align: center, $justify: center, $gap: 5px);
+    .dots{
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: $gray-500;  
+        &.single{
+            animation: up-and-down 0.75s ease-in-out infinite alternate-reverse;
+        }
+        &.single1{
+            animation: up-and-down1 0.75s ease-in-out infinite alternate-reverse;
+        }
+        &.single2{
+            animation: up-and-down2 0.75s ease-in-out infinite alternate-reverse;
+        }
+    }
+
+}
+
+@keyframes up-and-down{
+    0% {
+        transform: translateY(-5%);
+    }
+    25%{
+        transform: translateY(10%);
+    }
+    50% {
+        transform: translateY(20%);
+    }
+    75%{
+        transform: translateY(10%);
+    }
+    100% {
+        transform: translateY(-5%);
+    }
+}
+
+@keyframes up-and-down1{
+    0% {
+        transform: translateY(10%);
+    }
+    25%{
+        transform: translateY(0%);
+    }
+    50% {
+        transform: translateY(-10%);
+    }
+    75%{
+        transform: translateY(0%);
+    }
+    100% {
+        transform: translateY(10%);
+    }
+}
+
+@keyframes up-and-down2{
+    0% {
+        transform: translateY(-15%);
+    }
+    25% {
+        transform: translateY(0%);
+    }
+    50% {
+        transform: translateY(15%);
+    }
+    75%{
+        transform: translateY(0%);
+    }
+    100% {
+        transform: translateY(-15%);
+    }
+}
