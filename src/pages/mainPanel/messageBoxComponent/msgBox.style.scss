@@ -4,9 +4,19 @@
     margin: 8px 0 18px 0;
     overflow: hidden;
     display: block;
+    transition: margin-right .5s ease;
 
-    &.hide{
-        display: none;
+    &.new{
+        margin-right: 0;
+        animation: SlideIn .2s ease;
+        @keyframes SlideIn {
+            0% {
+                margin-right: -100%;
+            }
+            100% {
+                margin-right: 0;
+            }
+        }
     }
     p{
         display: block;
@@ -21,9 +31,10 @@
     .msg-box-other-content{
         @include flex($align: center, $justify: flex-start, $gap: 15px);
     }
+
+    
     
 }
-
 
 #my-msg p{
     float: right;

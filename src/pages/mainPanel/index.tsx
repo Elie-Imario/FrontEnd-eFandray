@@ -22,11 +22,13 @@ type newMsg = {
 const MainPanel = () => {
     const [userLastMessages, setUserLastMsgs] = useState <message[]>(userLastMsgs)
     const [conversation, setConversation] = useState<conversation>(conversations as conversation)
+    const [newMessage, setNewMessage] = useState<message>({} as message)
+    const [messageState, setMsgState] = useState(false)
     const ref = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
         ref.current?.scrollIntoView({behavior: "smooth", block:"end"});
-    }, [conversation.conversationMessage.length]);
+    }, [messageState]);
 
     const connectedUser = {
         userId: 5,
@@ -46,13 +48,18 @@ const MainPanel = () => {
             fromUser: message.fromUser
         } as message
 
-        conversation.conversationMessage.push(MSG)
-        setConversation({
-            ...conversation,
-            conversationMessage: conversation.conversationMessage
-            
-        })
-
+        setNewMessage(MSG)
+        setMsgState(true)
+        
+        setTimeout(()=>{
+            setMsgState(false)
+            conversation.conversationMessage.push(MSG)
+            setConversation({
+                ...conversation,
+                conversationMessage: conversation.conversationMessage     
+            })  
+    
+        },500)
         setMsg({...message, msgContent: ""})
     }
 
@@ -109,9 +116,9 @@ const MainPanel = () => {
                                 conversation.conversationMessage.map((item, index)=>{
                                     return(
                                         item.fromUser.userId === connectedUser.userId ?
-                                        <MsgBox id_msg_owner="my-msg" key={index}><p>{item.msgContent}</p></MsgBox>
+                                        <MsgBox id_msg_owner="my-msg" dataKeyMsg={`myMsg-${item.msgId}`} isNew={false} key={index}><p>{item.msgContent}</p></MsgBox>
                                         :
-                                        <MsgBox id_msg_owner="orther-msg" key={index}>
+                                        <MsgBox id_msg_owner="orther-msg" dataKeyMsg={`otherMsg${item.msgId}`} isNew={false} key={index}>
                                             <MsgBoxContent 
                                                 _picPath={item.fromUser.profilPic}
                                                 msgContent={item.msgContent}
@@ -119,8 +126,10 @@ const MainPanel = () => {
                                         </MsgBox>
                                         
                                     )
-                                })
+                                })                                        
                             }
+                            { messageState && <MsgBox id_msg_owner="my-msg" dataKeyMsg={`myMsg-${newMessage.msgId}`} isNew={messageState}><p>{newMessage.msgContent}</p></MsgBox> }
+
                             <div ref={ref} />
                         </div>
                     </div>
