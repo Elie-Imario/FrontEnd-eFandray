@@ -27,6 +27,7 @@ const MainPanel = () => {
     const [file, setFile] = useState<File | undefined>(undefined)
     const [messageState, setMsgState] = useState(false)
     const [isTyping, setTypingState] = useState(false)
+    const [usersTyping, setUserTyping] = useState<number[]>([])
     const ref = useRef<HTMLDivElement>(null)
     const refUploadFIle = useRef<HTMLInputElement>(null)  
 
@@ -39,6 +40,7 @@ const MainPanel = () => {
         username: "Imarioa",
         profilPic: "/images/imarioa.jpg"
     } as User
+
 
     const [message, setMsg] = useState<newMsg>({
         msgContent: '',
@@ -63,19 +65,21 @@ const MainPanel = () => {
             fromUser: message.fromUser
         } as message
 
-        setNewMessage(MSG)
-        setMsgState(true)
+        if(message.msgContent.trim()){
+            setNewMessage(MSG)
+            setMsgState(true)
+            
+            setTimeout(()=>{
+                setMsgState(false)
+                conversation.conversationMessage.push(MSG)
+                setConversation({
+                    ...conversation,
+                    conversationMessage: conversation.conversationMessage     
+                })  
         
-        setTimeout(()=>{
-            setMsgState(false)
-            conversation.conversationMessage.push(MSG)
-            setConversation({
-                ...conversation,
-                conversationMessage: conversation.conversationMessage     
-            })  
-    
-        },500)
-        setMsg({...message, msgContent: ""})
+            },500)
+            setMsg({...message, msgContent: ""})
+        }
     }
 
     return (
@@ -116,14 +120,17 @@ const MainPanel = () => {
                         <div className="message-boxes">
                             {
                                 userLastMessages.map((item, index)=>{
-                                    return <MsgBoxItem key={index} widthImg={60} heightImg={60} profilPicPath={item.fromUser.profilPic} UserName={item.fromUser.username} UserMessage={item.msgContent}/>
+                                    return(
+                                        <MsgBoxItem key={index} widthImg={60} heightImg={60} FromUser={item.fromUser} UserMessage={
+                                            usersTyping.indexOf(item.fromUser.userId) !== -1 ? <Dots /> : item.msgContent
+                                        }/> 
+                                    )
                                 })   
                             }
                         </div>
                     </div>
                 </div>
-
-                    
+                
                 <div className="right-side">
                     <div className="chat-room-section">
                         <div className="msg-box-section">
@@ -186,11 +193,11 @@ const MainPanel = () => {
                                     className="searchInput"
                                     placeholder="Ecrire ici..."
                                     value={message.msgContent}
+                                    multiline
+                                    maxRows={2}
                                     onChange={({target: {value}}) =>{
                                         setMsg({...message, msgContent : value })
                                     }}
-                                    multiline
-                                    maxRows={2}
                                 />
                             </FormControl>
                         </Box>

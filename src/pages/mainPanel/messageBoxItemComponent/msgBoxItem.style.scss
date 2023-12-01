@@ -8,8 +8,12 @@
     cursor: pointer;
 
     .msg-container{
-        @include flex($direction: column, $align: flex-start, $justify: flex-start, $gap: 2px);
+        @include flex($direction: column, $align: flex-start, $justify: flex-start, $gap: 5px);
         width: calc(100% - 70px);
+
+        .dots-statement{
+            padding: .4rem;
+        }
     }
     
     .msg-container .username{

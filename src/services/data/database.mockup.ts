@@ -14,7 +14,7 @@ export const userLastMsgs = [
         msgId: 2,
         msgContent: 'SHINE!!!!!!!!',
         fromUser: {
-            userId: 5,
+            userId: 15,
             username: 'Bakugo',
             profilPic: '/images/bakugo.jpg'
         },
