@@ -5,12 +5,13 @@ import InputAdornment from '@mui/material/InputAdornment';
 import UserCard from '../../components/userCard';
 import Tag from '../../components/tag';
 import MsgBoxItem from "./messageBoxItemComponent";
-import { userLastMsgs, conversations } from "../../services/data/database.mockup";
+import { userLastMsgs, Conversation } from "../../services/data/database.mockup";
 import { User, conversation, message } from "../../services/data/dataTypes";
 import './mainPanel.styles.scss';
 import { Box, FormControl } from "@mui/material";
 import MsgBox from "./messageBoxComponent/MsgBox";
 import MsgBoxContent from "./messageBoxComponent/MsgBoxContent";
+import Dots from "../../components/dots";
 
 
 
@@ -21,15 +22,16 @@ type newMsg = {
 
 const MainPanel = () => {
     const [userLastMessages, setUserLastMsgs] = useState <message[]>(userLastMsgs)
-    const [conversation, setConversation] = useState<conversation>(conversations as conversation)
+    const [conversation, setConversation] = useState<conversation>(Conversation as conversation)
     const [newMessage, setNewMessage] = useState<message>({} as message)
     const [file, setFile] = useState<File | undefined>(undefined)
     const [messageState, setMsgState] = useState(false)
+    const [isTyping, setTypingState] = useState(false)
     const ref = useRef<HTMLDivElement>(null)
     const refUploadFIle = useRef<HTMLInputElement>(null)  
 
     useEffect(() => {
-        ref.current?.scrollIntoView({behavior: "smooth", block:"end"});
+        ref.current?.scrollIntoView({behavior: "smooth"});
     }, [messageState]);
 
     const connectedUser = {
@@ -129,7 +131,7 @@ const MainPanel = () => {
                                 conversation.conversationMessage.map((item, index)=>{
                                     return(
                                         item.fromUser.userId === connectedUser.userId ?
-                                        <MsgBox id_msg_owner="my-msg" dataKeyMsg={`myMsg-${item.msgId}`} isNew={false} key={index}><p>{item.msgContent}</p></MsgBox>
+                                        <MsgBox id_msg_owner="my-msg" dataKeyMsg={`myMsg-${item.msgId}`} isNew={false} key={index}>{item.msgContent}</MsgBox>
                                         :
                                         <MsgBox id_msg_owner="orther-msg" dataKeyMsg={`otherMsg${item.msgId}`} isNew={false} key={index}>
                                             <MsgBoxContent 
@@ -141,10 +143,18 @@ const MainPanel = () => {
                                     )
                                 })                                        
                             }
-                            { messageState && <MsgBox id_msg_owner="my-msg" dataKeyMsg={`myMsg-${newMessage.msgId}`} isNew={messageState}><p>{newMessage.msgContent}</p></MsgBox> }
+                            { messageState && <MsgBox id_msg_owner="my-msg" dataKeyMsg={`myMsg-${newMessage.msgId}`} isNew={messageState}>{newMessage.msgContent}</MsgBox> }
 
                             <div ref={ref} />
                         </div>
+                        { isTyping && <MsgBox id_msg_owner="orther-msg" dataKeyMsg={'orther-while-typing'} isNew={true}>
+                            <MsgBoxContent 
+                                _picPath={"/images/1662650_1.jpg"}
+                                msgContent={<Dots />}
+                            />
+                        </MsgBox>
+                        }
+                        
                     </div>
                     <div className="send-msgsection">
                         <div className="btn_groups">

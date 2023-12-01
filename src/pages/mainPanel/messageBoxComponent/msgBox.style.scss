@@ -18,7 +18,7 @@
             }
         }
     }
-    p{
+    .content{
         display: block;
         padding: 0.70rem;
         border-radius: 5px;
@@ -37,12 +37,12 @@
     
 }
 
-#my-msg p{
+#my-msg .content{
     float: right;
     background-color: $primary;
 }
 
-#orther-msg p
+#orther-msg .content
 {
     float: left;
     background: $white;

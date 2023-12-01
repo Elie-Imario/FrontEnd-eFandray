@@ -1,10 +1,10 @@
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 import ProfilPic from '../../../components/userCard/ProfilPic';
 import './msgBox.style.scss'
 
 type Props = {
   _picPath: string,
-  msgContent: string
+  msgContent: string | ReactNode
 }
 
 const MsgBoxContent : FC<Props> = ({_picPath, msgContent}) => {
@@ -15,7 +15,8 @@ const MsgBoxContent : FC<Props> = ({_picPath, msgContent}) => {
           _height={54}
           _width={54}
         />
-        <p>{msgContent}</p>
+        <div className='content'>{ typeof msgContent === "string" ? <p>{msgContent}</p> : msgContent }</div>
+        
     </div>
   )
 }

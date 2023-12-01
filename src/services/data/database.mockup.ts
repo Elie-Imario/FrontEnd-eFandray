@@ -50,7 +50,7 @@ export const userLastMsgs = [
 ] as message[]
 
 
-export const conversations = {
+export const Conversation = {
     conversationId: 1,
     convesationType: 'PR',
     conversationMember: [1, 5],
