@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useMutation } from "@apollo/client";
 import { FormControl } from "@mui/material";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -9,6 +10,7 @@ import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 import Separator from "../../components/separator";
 import AuthHeader from "./authComponents/authHeader";
+import  { SING_IN_MUTATION }  from '../../requests/auth.request.gql'
 import "./authStyle.scss";
 
 
@@ -31,8 +33,19 @@ const AuthPage = () => {
       event.preventDefault();
     };
 
+    const [signinAction] = useMutation(SING_IN_MUTATION, {
+      variables:{
+        auth_identification: log.auth_identification,
+        password: log.password
+      }
+    })
+    
     const handleSignIn = ()=>{
-
+      signinAction().then(({data:{SignIn}})=>{
+        if(SignIn.statusCode === 200){
+          console.log(SignIn.message)
+        }
+      })
     }
 
     return (
