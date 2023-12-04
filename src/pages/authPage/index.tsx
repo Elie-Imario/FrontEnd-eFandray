@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useMutation } from "@apollo/client";
 import { FormControl } from "@mui/material";
 import Box from "@mui/material/Box";
@@ -12,6 +12,8 @@ import Separator from "../../components/separator";
 import AuthHeader from "./authComponents/authHeader";
 import  { SING_IN_MUTATION }  from '../../requests/auth.request.gql'
 import "./authStyle.scss";
+import { User } from "../../services/data/dataTypes";
+import { AppContext } from "../../services/context";
 
 
 
@@ -26,6 +28,9 @@ const AuthPage = () => {
       password: '',
     })
     const [showPassword, setShowPassword] = useState(false);
+
+    const { setAppContext } = useContext(AppContext)
+
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const handleMouseDownPassword = (
       event: React.MouseEvent<HTMLButtonElement>
@@ -43,7 +48,13 @@ const AuthPage = () => {
     const handleSignIn = ()=>{
       signinAction().then(({data:{SignIn}})=>{
         if(SignIn.statusCode === 200){
-          console.log(SignIn.message)
+          const user = {
+            userId: 40,
+            username: "Yuta",
+            profilPic: "test"
+          } as User
+          localStorage.setItem("connectedUser", JSON.stringify(user))
+          setAppContext(user)
         }
       })
     }
