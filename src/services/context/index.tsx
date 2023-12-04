@@ -16,7 +16,7 @@ const AppProvider: FC<Props> = ({children}) => {
     const [UserLogContext, setUserLogContext] = useState<User | undefined>(undefined)
     
     useEffect(()=>{
-        const logged = localStorage.getItem("connectedUser") !== null ? localStorage.getItem("connectedUser") : undefined
+        const logged = sessionStorage.getItem("connectedUser") !== null ? sessionStorage.getItem("connectedUser") : undefined
         try{
             if(logged){
                 setUserLogContext(JSON.parse(logged) as User)

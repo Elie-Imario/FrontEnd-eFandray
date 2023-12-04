@@ -53,7 +53,7 @@ const AuthPage = () => {
             username: "Yuta",
             profilPic: "test"
           } as User
-          localStorage.setItem("connectedUser", JSON.stringify(user))
+          sessionStorage.setItem("connectedUser", JSON.stringify(user))
           setAppContext(user)
         }
       })

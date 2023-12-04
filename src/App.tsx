@@ -9,14 +9,6 @@ import { AppContext } from './services/context';
 function App() {
   const { UserLogContext } = useContext(AppContext)
 
-  console.log("UserLogContext", UserLogContext)
-
-  useEffect(()=>{
-    if(UserLogContext?.userId) {
-      sessionStorage.setItem('connectedUser', JSON.stringify(UserLogContext))
-    }
-  },[UserLogContext])
-
   return (
       <div className="App">
           {
