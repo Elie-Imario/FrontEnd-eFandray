@@ -66,38 +66,11 @@ export const Conversation = {
         },
         {
             msgId: 2,
-            msgContent: 'Hello!!!',
-            fromUser: {
-                userId: 5,
-                username: 'Imarioa',
-                profilPic: '/images/imarioa.jpg'
-            },
-        },
-        {
-            msgId: 3,
             msgContent: 'Lorem ipsum ?',
             fromUser: {
                 userId: 1,
                 username: 'John Doe',
                 profilPic: '/images/1662650_1.jpg'
-            },
-        },
-        {
-            msgId: 4,
-            msgContent: 'What???',
-            fromUser: {
-                userId: 5,
-                username: 'Imarioa',
-                profilPic: '/images/imarioa.jpg'
-            },
-        },
-        {
-            msgId: 5,
-            msgContent: 'In english Please',
-            fromUser: {
-                userId: 5,
-                username: 'Imarioa',
-                profilPic: '/images/imarioa.jpg'
             },
         },
     ]

@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -12,6 +12,7 @@ import { Box, FormControl } from "@mui/material";
 import MsgBox from "./messageBoxComponent/MsgBox";
 import MsgBoxContent from "./messageBoxComponent/MsgBoxContent";
 import Dots from "../../components/dots";
+import { AppContext } from "../../services/context";
 
 
 
@@ -21,7 +22,8 @@ type newMsg = {
 }
 
 const MainPanel = () => {
-    const [userLastMessages, setUserLastMsgs] = useState <message[]>(userLastMsgs)
+    const { UserLogContext } = useContext(AppContext)
+    const [ userLastMessages, setUserLastMsgs ] = useState <message[]>(userLastMsgs)
     const [conversation, setConversation] = useState<conversation>(Conversation as conversation)
     const [newMessage, setNewMessage] = useState<message>({} as message)
     const [file, setFile] = useState<File | undefined>(undefined)
@@ -35,16 +37,11 @@ const MainPanel = () => {
         ref.current?.scrollIntoView({behavior: "smooth"});
     }, [messageState]);
 
-    const connectedUser = {
-        userId: 5,
-        username: "Imarioa",
-        profilPic: "/images/imarioa.jpg"
-    } as User
-
+    
 
     const [message, setMsg] = useState<newMsg>({
         msgContent: '',
-        fromUser: connectedUser
+        fromUser: UserLogContext as User
     })
 
     const handleUploadFile = () => {
@@ -88,7 +85,7 @@ const MainPanel = () => {
                 <div className="left-side">
                     <div className="header-section">
                         <div className="account-info">
-                            <UserCard UserName={connectedUser.username} Height={81} Width={81} ProfilPicPath={connectedUser.profilPic}/>
+                            <UserCard UserName={UserLogContext?.username as string} Height={81} Width={81} ProfilPicPath={UserLogContext?.profilPic as string}/>
                             <button className='btn btn-settings'><FontAwesomeIcon icon="cog" size="lg" /></button>
                         </div>
                         <div className="searchField">                 
@@ -137,7 +134,7 @@ const MainPanel = () => {
                             {
                                 conversation.conversationMessage.map((item, index)=>{
                                     return(
-                                        item.fromUser.userId === connectedUser.userId ?
+                                        item.fromUser.userId === UserLogContext?.userId ?
                                         <MsgBox id_msg_owner="my-msg" dataKeyMsg={`myMsg-${item.msgId}`} isNew={false} key={index}>{item.msgContent}</MsgBox>
                                         :
                                         <MsgBox id_msg_owner="orther-msg" dataKeyMsg={`otherMsg${item.msgId}`} isNew={false} key={index}>
