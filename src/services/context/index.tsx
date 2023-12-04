@@ -1,4 +1,4 @@
-import {FC, ReactNode, createContext, useEffect, useState} from 'react'
+import {FC, ReactNode, createContext, useState} from 'react'
 import { User } from '../data/dataTypes'
 
 type Props = {
@@ -7,26 +7,16 @@ type Props = {
 
 
 export const AppContext = createContext({
-    UserLogContext : {} as undefined | User,
+    UserLogContext : {} as User | undefined,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    setAppContext: (_val: User): void => { }
+    setAppContext: (_val: User | undefined): void => { }
 })
 
 const AppProvider: FC<Props> = ({children}) => {
-    const [UserLogContext, setUserLogContext] = useState<User | undefined>(undefined)
-    
-    useEffect(()=>{
-        const logged = sessionStorage.getItem("connectedUser") !== null ? sessionStorage.getItem("connectedUser") : undefined
-        try{
-            if(logged){
-                setUserLogContext(JSON.parse(logged) as User)
-            }
-        }catch(error){
-            console.error(error)
-        }
-    }, [])
+    const logged = sessionStorage.getItem("connectedUser") as string
+    const [UserLogContext, setUserLogContext] = useState<User | undefined>(JSON.parse(logged) as User)
 
-    const setAppContext = (user: User) => {
+    const setAppContext = (user: User | undefined) => {
         setUserLogContext(user)
     }
 
