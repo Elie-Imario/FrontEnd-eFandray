@@ -33,9 +33,10 @@ const MainPanel = () => {
     const ref = useRef<HTMLDivElement>(null)
     const refUploadFIle = useRef<HTMLInputElement>(null)  
 
+
     useEffect(() => {
         ref.current?.scrollIntoView({behavior: "smooth"});
-    }, [messageState]);
+    }, []);
 
     
 

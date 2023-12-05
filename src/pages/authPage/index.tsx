@@ -14,6 +14,8 @@ import  { SING_IN_MUTATION }  from '../../requests/auth.request.gql'
 import "./authStyle.scss";
 import { User } from "../../services/data/dataTypes";
 import { AppContext } from "../../services/context";
+import { useSubscription } from "@apollo/client";
+import  { USER_SUBSCRIPTION }  from '../../requests/auth.request.gql'
 
 
 
@@ -44,6 +46,9 @@ const AuthPage = () => {
         password: log.password
       }
     })
+    const {data} = useSubscription(USER_SUBSCRIPTION)
+    console.log("DATA",data)
+
     
     const handleSignIn = ()=>{
       signinAction().then(({data:{SignIn:{status, data}}}) => {
@@ -56,7 +61,6 @@ const AuthPage = () => {
           sessionStorage.setItem("connectedUser", JSON.stringify(user))
           setAppContext(user)
         }
-        console.log(data)
       })
     }
 
