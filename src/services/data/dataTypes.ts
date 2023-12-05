@@ -16,6 +16,7 @@ export type message = {
 export type User = {
     userId: number,
     username: string,
-    profilPic: string
+    profilPic: string,
+    onlineStatus: boolean
 }
 

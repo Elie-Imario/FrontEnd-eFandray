@@ -9,7 +9,8 @@ export const SING_IN_MUTATION = gql`
                 id
                 login
                 profilpic_path
-                email
+                email,
+                onlineStatus
             }
         }
     } 
