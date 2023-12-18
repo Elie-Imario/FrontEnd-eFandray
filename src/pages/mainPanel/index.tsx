@@ -23,7 +23,6 @@ type newMsg = {
 
 const MainPanel = () => {
     const { UserLogContext } = useContext(AppContext)
-    console.log(UserLogContext)
     const [ userLastMessages, setUserLastMsgs ] = useState <message[]>(userLastMsgs)
     const [conversation, setConversation] = useState<conversation>(Conversation as conversation)
     const [newMessage, setNewMessage] = useState<message>({} as message)
@@ -87,7 +86,7 @@ const MainPanel = () => {
                 <div className="left-side">
                     <div className="header-section">
                         <div className="account-info">
-                            <UserCard UserName={UserLogContext?.username as string} isOnline={UserLogContext?.onlineStatus as boolean} Height={81} Width={81} ProfilPicPath={UserLogContext?.profilPic as string}/>
+                            <UserCard UserName={UserLogContext?.username as string} isOnline={UserLogContext?.status as boolean} Height={81} Width={81} ProfilPicPath={UserLogContext?.profilPic as string}/>
                             <button className='btn btn-settings'><FontAwesomeIcon icon="cog" size="lg" /></button>
                         </div>
                         <div className="searchField">                 

@@ -58,7 +58,7 @@ const AuthPage = () => {
             userId: data.id,
             username: data.login,
             profilPic: data.profilpic_path,
-            onlineStatus: data.onlineStatus
+            status: data.onlineStatus
           } as User
           sessionStorage.setItem("connectedUser", JSON.stringify(user))
           setAppContext(user)

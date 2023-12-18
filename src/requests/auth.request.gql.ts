@@ -6,11 +6,11 @@ export const SING_IN_MUTATION = gql`
             status
             message
             data {
-                id
+                userId
                 login
                 profilpic_path
                 email,
-                onlineStatus
+                status
             }
         }
     } 
@@ -19,8 +19,8 @@ export const SING_IN_MUTATION = gql`
 export const USER_SUBSCRIPTION = gql`
     subscription{
         newUserConnected{
-            id,
-            onlineStatus
+            userId,
+            status
         }
     }
 `
