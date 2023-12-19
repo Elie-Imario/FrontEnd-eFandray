@@ -11,9 +11,9 @@ const MsgBoxContent : FC<Props> = ({_picPath, msgContent}) => {
   return (
     <div className='msg-box-other-content'>
         <ProfilPic 
-          _profilPicPath={_picPath}
-          _height={54}
-          _width={54}
+          _profilPicPath = {_picPath}
+          _height = {54}
+          _width = {54}
         />
         <div className='content'>{ typeof msgContent === "string" ? <p>{msgContent}</p> : msgContent }</div>
         

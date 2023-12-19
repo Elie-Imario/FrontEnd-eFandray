@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import UserCard from '../../components/userCard';
 import Tag from '../../components/tag';
-import MsgBoxItem from "./messageBoxItemComponent";
+import MsgBoxItem from "./messageBoxItemComponent/messageBox";
 import { User, Message, Chat } from "../../services/data/dataTypes";
 import './mainPanel.styles.scss';
 import { Box, FormControl } from "@mui/material";
@@ -14,6 +14,7 @@ import Dots from "../../components/dots";
 import { AppContext } from "../../services/context";
 import { DISCUSSION_QUERY } from "../../requests/userChat.request.gql";
 import { useQuery } from "@apollo/client";
+import MsgGroupBoxItem from "./messageBoxItemComponent/messageGroupBox";
 
 type newMsg = {
     messageContent: string,
@@ -34,7 +35,7 @@ const MainPanel = () => {
 
 
     // --------- Fetch UserChatHistor -----------
-    const {loading, data, error} = useQuery(DISCUSSION_QUERY,{
+    const {data} = useQuery(DISCUSSION_QUERY,{
         variables:{
             userId: UserLogContext?.userId,
             first: 1,
@@ -141,13 +142,7 @@ const MainPanel = () => {
                                             /> 
                                         ) :
                                         (
-                                            <MsgBoxItem key={index} 
-                                                widthImg={60} heightImg={60} 
-                                                MsgBoxChatPic = {""} 
-                                                MsgBoxChatName = {item.chat.chatName}
-                                                MsgBoxChatStatus = {false}
-                                                UserMessage={ item.chat.message.length>0 ? item.chat.message[0].messageContent : 'Demarrer une discussion' }
-                                            /> 
+                                            <MsgGroupBoxItem key={index} GroupChat={item.chat}/> 
 
                                         )
                                     )

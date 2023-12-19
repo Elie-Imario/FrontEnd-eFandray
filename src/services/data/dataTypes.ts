@@ -2,6 +2,7 @@ export type Chat = {
     chatId: number,
     chatType: ChatType,
     chatName: string,
+    chatGroupPic: string | undefined,
     nbUserSubscribed: number,
     message: Message[],
     usersSubscribed: User[]

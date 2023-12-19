@@ -6,6 +6,7 @@ export const DISCUSSION_QUERY = gql`
             chat {
             chatId
             chatType
+            chatGroupPic
             chatName
             message(first: $first,orderBy: {orderDirection: $orderDirection}) {
                 messageContent
