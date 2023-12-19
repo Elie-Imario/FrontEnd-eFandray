@@ -18,10 +18,11 @@ const MsgGroupBoxItem :FC<Props>= ({GroupChat}) => {
       topTwoUser.push(GroupChat.usersSubscribed[i])
     }
   }
+  console.log(topTwoUser)
   return (
     <div className="message-box">
         {
-          GroupChat.chatGroupPic !== undefined ? (
+          GroupChat.chatGroupPic !== null ? (
             <ProfilPic 
               _profilPicPath={GroupChat.chatGroupPic}   
               _width={50}
@@ -48,7 +49,7 @@ const MsgGroupBoxItem :FC<Props>= ({GroupChat}) => {
         }
         <div className="msg-container">
             <span className="username">{GroupChat.chatName}</span>
-            <span className="user-msg">{GroupChat.message.length>0 ? GroupChat.message[0].messageContent : 'Demarrer une discussion' }</span>
+            <span className="user-msg">{GroupChat.message.length>0 ? parseInt(GroupChat.message[0].FromUser.userId as unknown as string) === UserLogContext?.userId ? `Vous : ${GroupChat.message[0].messageContent}` : GroupChat.message[0].messageContent : 'Demarrer une discussion' }</span>
         </div>
     </div>
   )

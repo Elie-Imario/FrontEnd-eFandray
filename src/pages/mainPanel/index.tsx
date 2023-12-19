@@ -138,12 +138,11 @@ const MainPanel = () => {
                                                 MsgBoxChatName = {friend.login}
                                                 MsgBoxChatStatus = {friend.status}
                                                 //UserMessage={ usersTyping.indexOf(item.chat.usersSubscribed.userId) !== -1 ? <Dots /> : item.chat.message[0].messageContent }
-                                                UserMessage={ item.chat.message.length>0 ? item.chat.message[0].messageContent : 'Demarrer une discussion' }
+                                                UserMessage={ item.chat.message.length>0 ? parseInt(item.chat.message[0].FromUser.userId as unknown as string) === UserLogContext?.userId ? `Vous : ${item.chat.message[0].messageContent}` : item.chat.message[0].messageContent : 'Demarrer une discussion' }
                                             /> 
                                         ) :
                                         (
                                             <MsgGroupBoxItem key={index} GroupChat={item.chat}/> 
-
                                         )
                                     )
                                 })   
