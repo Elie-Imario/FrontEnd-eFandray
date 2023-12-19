@@ -1,24 +1,26 @@
 import { FC, ReactNode } from 'react';
 import ProfilPic from '../../../components/userCard/ProfilPic';
 import './msgBoxItem.style.scss'
-import { User } from '../../../services/data/dataTypes';
 
 type Props = {
-    FromUser: User, 
     widthImg: number,
     heightImg: number,
+    MsgBoxChatPic: string,
+    MsgBoxChatName: string,
+    MsgBoxChatStatus: boolean,
     UserMessage: string | ReactNode,
 }
-const MsgBoxItem :FC<Props>= ({FromUser, UserMessage, widthImg, heightImg}) => {
+const MsgBoxItem :FC<Props>= ({MsgBoxChatPic, MsgBoxChatName, MsgBoxChatStatus, UserMessage, widthImg, heightImg}) => {
   return (
     <div className="message-box">
         <ProfilPic 
-            _profilPicPath={FromUser.profilPic}
+            _profilPicPath={MsgBoxChatPic}
             _width={widthImg}
             _height={heightImg}
+            _isOnline={MsgBoxChatStatus}
         />
         <div className="msg-container">
-            <span className="username">{FromUser.username}</span>
+            <span className="username">{MsgBoxChatName}</span>
             {typeof UserMessage !== "string" ? UserMessage : <span className="user-msg">{UserMessage}</span>}
         </div>
     </div>

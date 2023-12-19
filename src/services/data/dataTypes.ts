@@ -2,8 +2,8 @@ export type Chat = {
     chatId: number,
     chatType: ChatType,
     chatName: string,
-    nbUserSubscribed: number
-    message: Message[]
+    nbUserSubscribed: number,
+    message: Message[],
     usersSubscribed: User[]
 }
 

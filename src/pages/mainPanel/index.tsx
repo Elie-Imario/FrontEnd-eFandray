@@ -5,44 +5,55 @@ import InputAdornment from '@mui/material/InputAdornment';
 import UserCard from '../../components/userCard';
 import Tag from '../../components/tag';
 import MsgBoxItem from "./messageBoxItemComponent";
-import { userLastMsgs, Conversation } from "../../services/data/database.mockup";
-import { User, conversation, message } from "../../services/data/dataTypes";
+import { User, Message, Chat } from "../../services/data/dataTypes";
 import './mainPanel.styles.scss';
 import { Box, FormControl } from "@mui/material";
 import MsgBox from "./messageBoxComponent/MsgBox";
 import MsgBoxContent from "./messageBoxComponent/MsgBoxContent";
 import Dots from "../../components/dots";
 import { AppContext } from "../../services/context";
-
-
+import { DISCUSSION_QUERY } from "../../requests/userChat.request.gql";
+import { useQuery } from "@apollo/client";
 
 type newMsg = {
-    msgContent: string,
-    fromUser: User,
+    messageContent: string,
+    FromUser: User,
 }
 
 const MainPanel = () => {
     const { UserLogContext } = useContext(AppContext)
-    const [ userLastMessages, setUserLastMsgs ] = useState <message[]>(userLastMsgs)
-    const [conversation, setConversation] = useState<conversation>(Conversation as conversation)
-    const [newMessage, setNewMessage] = useState<message>({} as message)
+
+    const [userchathistory, setUserChatHistory] = useState([])
+    const [newMessage, setNewMessage] = useState<Message>({} as Message)
     const [file, setFile] = useState<File | undefined>(undefined)
     const [messageState, setMsgState] = useState(false)
     const [isTyping, setTypingState] = useState(false)
     const [usersTyping, setUserTyping] = useState<number[]>([])
-    const ref = useRef<HTMLDivElement>(null)
     const refUploadFIle = useRef<HTMLInputElement>(null)  
+    const ref = useRef<HTMLDivElement>(null)
 
 
-    useEffect(() => {
-        ref.current?.scrollIntoView({behavior: "smooth"});
-    }, []);
+    // --------- Fetch UserChatHistor -----------
+    const {loading, data, error} = useQuery(DISCUSSION_QUERY,{
+        variables:{
+            userId: UserLogContext?.userId,
+            first: 1,
+            orderDirection: "DESC"
+        }
+    })
 
-    
+    useEffect(()=>{
+        if(data){
+            setUserChatHistory(data.UserChatHistory)
+        }
+    }, [data])
+ 
+    //UseEffect for auto-Scroll
+    useEffect(() => ref.current?.scrollIntoView({behavior: "smooth"}), []);
 
     const [message, setMsg] = useState<newMsg>({
-        msgContent: '',
-        fromUser: UserLogContext as User
+        messageContent: '',
+        FromUser: UserLogContext as User
     })
 
     const handleUploadFile = () => {
@@ -58,25 +69,23 @@ const MainPanel = () => {
 
     const handlePostNewMsg = ()=>{
         const MSG = {
-            msgId: conversation.conversationMessage[conversation.conversationMessage.length - 1].msgId +1,
-            msgContent: message.msgContent,
-            fromUser: message.fromUser
-        } as message
+            
+        } as Message
 
-        if(message.msgContent.trim()){
+        if(message.messageContent.trim()){
             setNewMessage(MSG)
             setMsgState(true)
             
             setTimeout(()=>{
                 setMsgState(false)
-                conversation.conversationMessage.push(MSG)
-                setConversation({
-                    ...conversation,
-                    conversationMessage: conversation.conversationMessage     
-                })  
+                // conversation.conversationMessage.push(MSG)
+                // setConversation({
+                //     ...conversation,
+                //     conversationMessage: conversation.conversationMessage     
+                // })  
         
             },500)
-            setMsg({...message, msgContent: ""})
+            setMsg({...message, messageContent: ""})
         }
     }
 
@@ -86,7 +95,7 @@ const MainPanel = () => {
                 <div className="left-side">
                     <div className="header-section">
                         <div className="account-info">
-                            <UserCard UserName={UserLogContext?.username as string} isOnline={UserLogContext?.status as boolean} Height={81} Width={81} ProfilPicPath={UserLogContext?.profilPic as string}/>
+                            <UserCard UserName={UserLogContext?.login as string} isOnline={UserLogContext?.status as boolean} Height={81} Width={81} ProfilPicPath={UserLogContext?.profilpic_path as string}/>
                             <button className='btn btn-settings'><FontAwesomeIcon icon="cog" size="lg" /></button>
                         </div>
                         <div className="searchField">                 
@@ -117,11 +126,30 @@ const MainPanel = () => {
                         </div>
                         <div className="message-boxes">
                             {
-                                userLastMessages.map((item, index)=>{
+                                userchathistory.map((item:{chat: Chat}, index)=>{
+                                    const friend = item.chat.usersSubscribed.filter(user => parseInt(user.userId as unknown as string) !== UserLogContext?.userId)[0]
+
                                     return(
-                                        <MsgBoxItem key={index} widthImg={60} heightImg={60} FromUser={item.fromUser} UserMessage={
-                                            usersTyping.indexOf(item.fromUser.userId) !== -1 ? <Dots /> : item.msgContent
-                                        }/> 
+                                        item.chat.chatType === "PRIVATE" ? (
+                                            <MsgBoxItem key={index} 
+                                                widthImg={60} heightImg={60} 
+                                                MsgBoxChatPic = {friend.profilpic_path} 
+                                                MsgBoxChatName = {friend.login}
+                                                MsgBoxChatStatus = {friend.status}
+                                                //UserMessage={ usersTyping.indexOf(item.chat.usersSubscribed.userId) !== -1 ? <Dots /> : item.chat.message[0].messageContent }
+                                                UserMessage={ item.chat.message.length>0 ? item.chat.message[0].messageContent : 'Demarrer une discussion' }
+                                            /> 
+                                        ) :
+                                        (
+                                            <MsgBoxItem key={index} 
+                                                widthImg={60} heightImg={60} 
+                                                MsgBoxChatPic = {""} 
+                                                MsgBoxChatName = {item.chat.chatName}
+                                                MsgBoxChatStatus = {false}
+                                                UserMessage={ item.chat.message.length>0 ? item.chat.message[0].messageContent : 'Demarrer une discussion' }
+                                            /> 
+
+                                        )
                                     )
                                 })   
                             }
@@ -132,7 +160,7 @@ const MainPanel = () => {
                 <div className="right-side">
                     <div className="chat-room-section">
                         <div className="msg-box-section">
-                            {
+                            {/* {
                                 conversation.conversationMessage.map((item, index)=>{
                                     return(
                                         item.fromUser.userId === UserLogContext?.userId ?
@@ -147,8 +175,8 @@ const MainPanel = () => {
                                         
                                     )
                                 })                                        
-                            }
-                            { messageState && <MsgBox id_msg_owner="my-msg" dataKeyMsg={`myMsg-${newMessage.msgId}`} isNew={messageState}>{newMessage.msgContent}</MsgBox> }
+                            } */}
+                            { messageState && <MsgBox id_msg_owner="my-msg" dataKeyMsg={`myMsg-${newMessage.messageId}`} isNew={messageState}>{newMessage.messageContent}</MsgBox> }
 
                             <div ref={ref} />
                         </div>
@@ -190,11 +218,11 @@ const MainPanel = () => {
                                 <TextField fullWidth
                                     className="searchInput"
                                     placeholder="Ecrire ici..."
-                                    value={message.msgContent}
+                                    value={message.messageContent}
                                     multiline
                                     maxRows={2}
                                     onChange={({target: {value}}) =>{
-                                        setMsg({...message, msgContent : value })
+                                        setMsg({...message, messageContent : value })
                                     }}
                                 />
                             </FormControl>

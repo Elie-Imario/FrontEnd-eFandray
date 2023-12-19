@@ -53,12 +53,11 @@ const AuthPage = () => {
     const handleSignIn = ()=>{
       signinAction().then(({data:{SignIn:{status, data}}}) => {
         if(status === 200){
-          console.log(data)
           const user = {
-            userId: data.id,
-            username: data.login,
-            profilPic: data.profilpic_path,
-            status: data.onlineStatus
+            userId: parseInt(data.userId),
+            login: data.login,
+            profilpic_path: data.profilpic_path,
+            status: data.status
           } as User
           sessionStorage.setItem("connectedUser", JSON.stringify(user))
           setAppContext(user)

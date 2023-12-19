@@ -13,8 +13,8 @@ export const AppContext = createContext({
 })
 
 const AppProvider: FC<Props> = ({children}) => {
-    const logged = sessionStorage.getItem("connectedUser") as string
-    const [UserLogContext, setUserLogContext] = useState<User | undefined>(JSON.parse(logged) as User)
+    const logged = sessionStorage.getItem("connectedUser")
+    const [UserLogContext, setUserLogContext] = useState<User | undefined>(JSON.parse(logged as string) as User)
 
     const setAppContext = (user: User | undefined) => {
         setUserLogContext(user)
