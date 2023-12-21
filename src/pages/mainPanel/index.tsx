@@ -17,6 +17,7 @@ import MsgGroupBoxItem from "./messageBoxItemComponent/messageGroupBox";
 import { DISCUSSION_QUERY } from "../../requests/userChat.request.gql";
 import { CHAT_MESSAGE_QUERY } from "../../requests/message.request.gql";
 import MsgPicBox from "./messageBoxComponent/MsgPicBox";
+import ProfilPic from "../../components/userCard/ProfilPic";
 
 type newMsg = {
     messageContent: string,
@@ -179,6 +180,16 @@ const MainPanel = () => {
                 </div>
                 
                 <div className="right-side">
+                    <div className="chat-room-header">
+                        <div className="chat-info">
+                            <ProfilPic 
+                                _profilPicPath={UserLogContext?.profilpic_path}   
+                                _width={54}
+                                _height={54}         
+                            />
+                            <span className="username">{UserLogContext?.login}</span>
+                        </div>
+                    </div>
                     <div className="chat-room-section">
                         <div className="msg-box-section">
                             {
