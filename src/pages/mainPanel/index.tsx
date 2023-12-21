@@ -16,6 +16,7 @@ import { useLazyQuery, useQuery } from "@apollo/client";
 import MsgGroupBoxItem from "./messageBoxItemComponent/messageGroupBox";
 import { DISCUSSION_QUERY } from "../../requests/userChat.request.gql";
 import { CHAT_MESSAGE_QUERY } from "../../requests/message.request.gql";
+import MsgPicBox from "./messageBoxComponent/MsgPicBox";
 
 type newMsg = {
     messageContent: string,
@@ -56,7 +57,7 @@ const MainPanel = () => {
     }, [data])
  
     //UseEffect for auto-Scroll
-    useEffect(() => ref.current?.scrollIntoView({behavior: "smooth"}), []);
+    useEffect(() => ref.current?.scrollIntoView({behavior: "smooth"}), [ChatMessage]);
 
     const [message, setMsg] = useState<newMsg>({
         messageContent: '',
@@ -182,12 +183,17 @@ const MainPanel = () => {
                                 ChatMessage?.map((item:Message, index)=>{
                                     return(
                                         parseInt(item.FromUser.userId as unknown as string) === UserLogContext?.userId ?
-                                        <MsgBox id_msg_owner="my-msg" dataKeyMsg={`myMsg-${item.messageId}`} isNew={false} key={index}>{item.messageContent}</MsgBox>
+                                        <MsgBox id_msg_owner="my-msg" dataKeyMsg={`myMsg-${item.messageId}`} isNew={false} key={index}>
+                                            {
+                                                item.type === "IMG" ? <MsgPicBox imagePath={item.messagefilepath}/> : item.messageContent 
+                                            }
+                                        </MsgBox>
                                         :
                                         <MsgBox id_msg_owner="orther-msg" dataKeyMsg={`otherMsg${item.messageId}`} isNew={false} key={index}>
                                             <MsgBoxContent 
                                                 _picPath={item.FromUser.profilpic_path}
-                                                msgContent={item.messageContent}
+                                                msgContentType = {item.type}
+                                                msgContent={item.type === "TXT" ? item.messageContent : <MsgPicBox imagePath={item.messagefilepath}/>}
                                             />
                                         </MsgBox>
                                         

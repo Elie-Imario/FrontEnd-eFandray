@@ -30,10 +30,23 @@
         white-space: break-spaces;
     }
     .msg-box-other-content{
-        @include flex($align: center, $justify: flex-start, $gap: 15px);
+        &.flex-b{
+            @include flex($align: baseline, $justify: flex-start, $gap: 15px);
+        }
+        &.flex-c{
+            @include flex($align: center, $justify: flex-start, $gap: 15px);
+        }
     }
 
-    
+    .msgPic-box-container{
+        width: 225px;
+        height: 324px;
+        img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
     
 }
 
@@ -41,6 +54,11 @@
     float: right;
     background-color: $primary;
 }
+
+#my-msg .msgPic-box-container{
+    float: right;
+}
+
 
 #orther-msg .content
 {
