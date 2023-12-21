@@ -32,7 +32,7 @@ const MsgBoxItem :FC<Props>= ({chatId, MsgBoxChatPic, MsgBoxChatName, MsgBoxChat
                 : (
                   UserMessage.type === "IMG" ? 
                   (
-                    <span className="user-msg">{parseInt(UserMessage.FromUser.userId as unknown as string) === UserLogContext?.userId ? 'Vous avez envoyer une photo' : `${UserMessage.FromUser.login} a envoyé une photo`}</span>
+                    <span className="user-msg">{parseInt(UserMessage.FromUser.userId as unknown as string) === UserLogContext?.userId ? 'Vous avez envoyé une photo' : `${UserMessage.FromUser.login} a envoyé une photo`}</span>
                   ):
                   (
                     <span className="user-msg">{parseInt(UserMessage.FromUser.userId as unknown as string) === UserLogContext?.userId ? `Vous : ${UserMessage.messageContent}` : UserMessage.messageContent}</span>

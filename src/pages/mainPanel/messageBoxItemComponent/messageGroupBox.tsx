@@ -50,7 +50,18 @@ const MsgGroupBoxItem :FC<Props>= ({GroupChat, onMsgBoxClick}) => {
         }
         <div className="msg-container">
             <span className="username">{GroupChat.chatName}</span>
-            <span className="user-msg">{GroupChat.message.length>0 ? parseInt(GroupChat.message[0].FromUser.userId as unknown as string) === UserLogContext?.userId ? `Vous : ${GroupChat.message[0].messageContent}` : GroupChat.message[0].messageContent : 'Demarrer une discussion' }</span>
+            {GroupChat.message.length > 0 ? 
+              (
+                GroupChat.message[0].type === "IMG" ? 
+                (
+                  <span className="user-msg">{parseInt(GroupChat.message[0].FromUser.userId as unknown as string) === UserLogContext?.userId ? 'Vous avez envoyé une photo' : `${GroupChat.message[0].FromUser.login} a envoyé une photo`}</span>
+                ):
+                (
+                  <span className="user-msg">{parseInt(GroupChat.message[0].FromUser.userId as unknown as string) === UserLogContext?.userId ? `Vous : ${GroupChat.message[0].messageContent}` : GroupChat.message[0].messageContent}</span>
+                )
+              ): 
+              <span className="user-msg">Démarrer une discussion</span>
+            }
         </div>
     </div>
   )
