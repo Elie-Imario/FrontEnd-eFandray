@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useContext } from "react";
+import { useState, useRef, useEffect, useContext, useMemo } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -107,8 +107,10 @@ const MainPanel = () => {
         }) 
     }
 
+    const MsgOwners = useMemo(()=>{
+        return ChatMessage?.map(msg=> msg.FromUser.userId)
+    },[ChatMessage])
     
-
 
     return (
         <div className="main view-2">
@@ -159,7 +161,7 @@ const MainPanel = () => {
                                                 MsgBoxChatName = {friend.login}
                                                 MsgBoxChatStatus = {friend.status}
                                                 //UserMessage={ usersTyping.indexOf(item.chat.usersSubscribed.userId) !== -1 ? <Dots /> : item.chat.message[0].messageContent }
-                                                UserMessage={ item.chat.message.length>0 ? parseInt(item.chat.message[0].FromUser.userId as unknown as string) === UserLogContext?.userId ? `Vous : ${item.chat.message[0].messageContent}` : item.chat.message[0].messageContent : 'Demarrer une discussion' }
+                                                UserMessage={ item.chat.message.length>0 ? item.chat.message[0] : undefined}
                                                 onMsgBoxClick = {GetChatMessage}
                                             /> 
                                         ) :
@@ -180,7 +182,7 @@ const MainPanel = () => {
                     <div className="chat-room-section">
                         <div className="msg-box-section">
                             {
-                                ChatMessage?.map((item:Message, index)=>{
+                                ChatMessage?.map((item:Message, index)=>{   
                                     return(
                                         parseInt(item.FromUser.userId as unknown as string) === UserLogContext?.userId ?
                                         <MsgBox id_msg_owner="my-msg" dataKeyMsg={`myMsg-${item.messageId}`} isNew={false} key={index}>
@@ -191,10 +193,10 @@ const MainPanel = () => {
                                         :
                                         <MsgBox id_msg_owner="orther-msg" dataKeyMsg={`otherMsg${item.messageId}`} isNew={false} key={index}>
                                             <MsgBoxContent 
-                                                _picPath={item.FromUser.profilpic_path}
+                                                _picPath={MsgOwners? MsgOwners[index] === MsgOwners[index+1] ? "" : item.FromUser.profilpic_path : "" }
                                                 msgContentType = {item.type}
                                                 msgContent={item.type === "TXT" ? item.messageContent : <MsgPicBox imagePath={item.messagefilepath}/>}
-                                            />
+                                            />        
                                         </MsgBox>
                                         
                                     )

@@ -3,7 +3,7 @@ import ProfilPic from '../../../components/userCard/ProfilPic';
 import './msgBox.style.scss'
 
 type Props = {
-  _picPath: string,
+  _picPath?: string,
   msgContent: string | ReactNode,
   msgContentType?: string
 }

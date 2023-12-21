@@ -9,6 +9,7 @@ export const DISCUSSION_QUERY = gql`
             chatGroupPic
             chatName
             message(first: $first,orderBy: {orderDirection: $orderDirection}) {
+                type
                 messageContent
                 messagefilepath
                 FromUser {
