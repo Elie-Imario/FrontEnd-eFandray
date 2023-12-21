@@ -5,9 +5,11 @@ import { Chat } from '../../../services/data/dataTypes';
 import { AppContext } from '../../../services/context';
 
 type Props = {
-  GroupChat : Chat
+  GroupChat : Chat,
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  onMsgBoxClick: Function
 }
-const MsgGroupBoxItem :FC<Props>= ({GroupChat}) => {
+const MsgGroupBoxItem :FC<Props>= ({GroupChat, onMsgBoxClick}) => {
   const { UserLogContext } = useContext(AppContext)
   const topTwoUser = []
   for(let i =0; i<2; i++){
@@ -18,9 +20,8 @@ const MsgGroupBoxItem :FC<Props>= ({GroupChat}) => {
       topTwoUser.push(GroupChat.usersSubscribed[i])
     }
   }
-  console.log(topTwoUser)
   return (
-    <div className="message-box">
+    <div className="message-box" onClick={() => onMsgBoxClick(parseInt(GroupChat.chatId as unknown as string))}>
         {
           GroupChat.chatGroupPic !== null ? (
             <ProfilPic 

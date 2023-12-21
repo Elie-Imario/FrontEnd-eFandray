@@ -12,9 +12,10 @@ import MsgBox from "./messageBoxComponent/MsgBox";
 import MsgBoxContent from "./messageBoxComponent/MsgBoxContent";
 import Dots from "../../components/dots";
 import { AppContext } from "../../services/context";
-import { DISCUSSION_QUERY } from "../../requests/userChat.request.gql";
-import { useQuery } from "@apollo/client";
+import { useLazyQuery, useQuery } from "@apollo/client";
 import MsgGroupBoxItem from "./messageBoxItemComponent/messageGroupBox";
+import { DISCUSSION_QUERY } from "../../requests/userChat.request.gql";
+import { CHAT_MESSAGE_QUERY } from "../../requests/message.request.gql";
 
 type newMsg = {
     messageContent: string,
@@ -25,6 +26,7 @@ const MainPanel = () => {
     const { UserLogContext } = useContext(AppContext)
 
     const [userchathistory, setUserChatHistory] = useState([])
+    const [ChatMessage, setChatMessage] = useState<Message[]|undefined>([])
     const [newMessage, setNewMessage] = useState<Message>({} as Message)
     const [file, setFile] = useState<File | undefined>(undefined)
     const [messageState, setMsgState] = useState(false)
@@ -42,6 +44,10 @@ const MainPanel = () => {
             orderDirection: "DESC"
         }
     })
+
+    //------- Fetch ChatMessage ----------------
+    const [GetChatMessageQuery] = useLazyQuery(CHAT_MESSAGE_QUERY)
+
 
     useEffect(()=>{
         if(data){
@@ -90,6 +96,19 @@ const MainPanel = () => {
         }
     }
 
+    const GetChatMessage = (chatId:number) => {
+        GetChatMessageQuery({
+            variables:{
+                chatId
+            }
+        }).then(({data})=>{
+            setChatMessage(data.ChatMessages)
+        }) 
+    }
+
+    
+
+
     return (
         <div className="main view-2">
             <div className="bloc-page fullwidth">
@@ -134,15 +153,20 @@ const MainPanel = () => {
                                         item.chat.chatType === "PRIVATE" ? (
                                             <MsgBoxItem key={index} 
                                                 widthImg={60} heightImg={60} 
+                                                chatId={item.chat.chatId}
                                                 MsgBoxChatPic = {friend.profilpic_path} 
                                                 MsgBoxChatName = {friend.login}
                                                 MsgBoxChatStatus = {friend.status}
                                                 //UserMessage={ usersTyping.indexOf(item.chat.usersSubscribed.userId) !== -1 ? <Dots /> : item.chat.message[0].messageContent }
                                                 UserMessage={ item.chat.message.length>0 ? parseInt(item.chat.message[0].FromUser.userId as unknown as string) === UserLogContext?.userId ? `Vous : ${item.chat.message[0].messageContent}` : item.chat.message[0].messageContent : 'Demarrer une discussion' }
+                                                onMsgBoxClick = {GetChatMessage}
                                             /> 
                                         ) :
                                         (
-                                            <MsgGroupBoxItem key={index} GroupChat={item.chat}/> 
+                                            <MsgGroupBoxItem key={index}  
+                                                GroupChat={item.chat}
+                                                onMsgBoxClick = {GetChatMessage}
+                                            /> 
                                         )
                                     )
                                 })   
@@ -154,22 +178,22 @@ const MainPanel = () => {
                 <div className="right-side">
                     <div className="chat-room-section">
                         <div className="msg-box-section">
-                            {/* {
-                                conversation.conversationMessage.map((item, index)=>{
+                            {
+                                ChatMessage?.map((item:Message, index)=>{
                                     return(
-                                        item.fromUser.userId === UserLogContext?.userId ?
-                                        <MsgBox id_msg_owner="my-msg" dataKeyMsg={`myMsg-${item.msgId}`} isNew={false} key={index}>{item.msgContent}</MsgBox>
+                                        parseInt(item.FromUser.userId as unknown as string) === UserLogContext?.userId ?
+                                        <MsgBox id_msg_owner="my-msg" dataKeyMsg={`myMsg-${item.messageId}`} isNew={false} key={index}>{item.messageContent}</MsgBox>
                                         :
-                                        <MsgBox id_msg_owner="orther-msg" dataKeyMsg={`otherMsg${item.msgId}`} isNew={false} key={index}>
+                                        <MsgBox id_msg_owner="orther-msg" dataKeyMsg={`otherMsg${item.messageId}`} isNew={false} key={index}>
                                             <MsgBoxContent 
-                                                _picPath={item.fromUser.profilPic}
-                                                msgContent={item.msgContent}
+                                                _picPath={item.FromUser.profilpic_path}
+                                                msgContent={item.messageContent}
                                             />
                                         </MsgBox>
                                         
                                     )
                                 })                                        
-                            } */}
+                            }
                             { messageState && <MsgBox id_msg_owner="my-msg" dataKeyMsg={`myMsg-${newMessage.messageId}`} isNew={messageState}>{newMessage.messageContent}</MsgBox> }
 
                             <div ref={ref} />
