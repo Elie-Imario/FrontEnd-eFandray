@@ -51,18 +51,23 @@ const ChatCard : FC <Props> = ({currentChat}) => {
                             ):
                             (
                                 <div className="multi-profil-pic">
-                                    {
-                                        topTwoUser.map((item, index)=>{
-                                        return(
-                                            <ProfilPic
-                                            key={index}  
-                                            _profilPicPath={item.profilpic_path}
-                                            _width={45}
-                                            _height={45}         
-                                            />
-                                        )
-                                        })
-                                    }
+                                    <div className='profil-pics'>
+                                        {
+                                            topTwoUser.map((item, index)=>{
+                                                return (
+                                                    <ProfilPic
+                                                        key={index}  
+                                                        _profilPicPath={item.profilpic_path}
+                                                        _width={45}
+                                                        _height={45}         
+                                                    />
+                                                )
+                                            })
+                                        }
+                                    </div>
+                                    <div>
+                                        <span className="username">{currentChat.chatName}</span>
+                                    </div>
                                 </div>
 
                             )

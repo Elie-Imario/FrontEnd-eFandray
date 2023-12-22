@@ -11,22 +11,30 @@
         }
     }
     .multi-profil-pic{
-        position: relative;
-        width: 64px;
-        height: 64px;
-        .profil-pic{
-            border: 1px solid $gray-400;
+        @include flex($align: center, $justify: flex-start, $gap: 15px);
+        .profil-pics{
+            width: 64px;
+            height: 64px;
+            position: relative;
+            .profil-pic{
+                border: 1px solid $gray-400;
+            }
+            .profil-pic:nth-of-type(1){
+                z-index: 1;
+                position: absolute;
+                bottom: 1px;
+                left: 0;
+            }
+            .profil-pic:nth-of-type(2){
+                position: absolute;
+                top: 1px;
+                right: 0;
+            }    
         }
-        .profil-pic:nth-of-type(1){
-            z-index: 1;
-            position: absolute;
-            bottom: 1px;
-            left: 0;
-        }
-        .profil-pic:nth-of-type(2){
-            position: absolute;
-            top: 1px;
-            right: 0;
+        div span{
+            @include plusJakartaSansType($weight: 600);
+            color: $gray-900;
+            font-size: 16px;
         }
     }   
 }

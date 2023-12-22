@@ -17,7 +17,6 @@ import MsgGroupBoxItem from "./messageBoxItemComponent/messageGroupBox";
 import { CHAT_QUERY, DISCUSSION_QUERY } from "../../requests/userChat.request.gql";
 import { CHAT_MESSAGE_QUERY } from "../../requests/message.request.gql";
 import MsgPicBox from "./messageBoxComponent/MsgPicBox";
-import ProfilPic from "../../components/userCard/ProfilPic";
 import ChatCard from "../../components/chatCard";
 
 type newMsg = {
