@@ -14,10 +14,11 @@ import Dots from "../../components/dots";
 import { AppContext } from "../../services/context";
 import { useLazyQuery, useQuery } from "@apollo/client";
 import MsgGroupBoxItem from "./messageBoxItemComponent/messageGroupBox";
-import { DISCUSSION_QUERY } from "../../requests/userChat.request.gql";
+import { CHAT_QUERY, DISCUSSION_QUERY } from "../../requests/userChat.request.gql";
 import { CHAT_MESSAGE_QUERY } from "../../requests/message.request.gql";
 import MsgPicBox from "./messageBoxComponent/MsgPicBox";
 import ProfilPic from "../../components/userCard/ProfilPic";
+import ChatCard from "../../components/chatCard";
 
 type newMsg = {
     messageContent: string,
@@ -29,6 +30,7 @@ const MainPanel = () => {
 
     const [userchathistory, setUserChatHistory] = useState([])
     const [ChatMessage, setChatMessage] = useState<Message[]|undefined>([])
+    const [CurrentChat, setCurrentChat] = useState<Chat|undefined>(undefined)
     const [newMessage, setNewMessage] = useState<Message>({} as Message)
     const [file, setFile] = useState<File | undefined>(undefined)
     const [messageState, setMsgState] = useState(false)
@@ -50,6 +52,8 @@ const MainPanel = () => {
     //------- Fetch ChatMessage ----------------
     const [GetChatMessageQuery] = useLazyQuery(CHAT_MESSAGE_QUERY)
 
+    //------- Fect Chat By PK ------------------
+    const [GetChatById] = useLazyQuery(CHAT_QUERY)
 
     useEffect(()=>{
         if(data){
@@ -106,6 +110,14 @@ const MainPanel = () => {
         }).then(({data})=>{
             setChatMessage(data.ChatMessages)
         }) 
+
+        GetChatById({
+            variables:{
+                chatId
+            }
+        }).then(({data})=>{
+            setCurrentChat(data.Chat)
+        })
     }
 
     const MsgOwners = useMemo(()=>{
@@ -180,96 +192,98 @@ const MainPanel = () => {
                 </div>
                 
                 <div className="right-side">
-                    <div className="chat-room-header">
-                        <div className="chat-info">
-                            <ProfilPic 
-                                _profilPicPath={UserLogContext?.profilpic_path}   
-                                _width={54}
-                                _height={54}         
-                            />
-                            <span className="username">{UserLogContext?.login}</span>
-                        </div>
-                    </div>
-                    <div className="chat-room-section">
-                        <div className="msg-box-section">
-                            {
-                                ChatMessage?.map((item:Message, index)=>{   
-                                    return(
-                                        parseInt(item.FromUser.userId as unknown as string) === UserLogContext?.userId ?
-                                        <MsgBox id_msg_owner="my-msg" dataKeyMsg={`myMsg-${item.messageId}`} isNew={false} key={index}>
-                                            {
-                                                item.type === "IMG" ? <MsgPicBox imagePath={item.messagefilepath}/> : item.messageContent 
-                                            }
-                                        </MsgBox>
-                                        :
-                                        <MsgBox id_msg_owner="orther-msg" dataKeyMsg={`otherMsg${item.messageId}`} isNew={false} key={index}>
-                                            <MsgBoxContent 
-                                                _picPath={MsgOwners? MsgOwners[index] === MsgOwners[index+1] ? "" : item.FromUser.profilpic_path : "" }
-                                                msgContentType = {item.type}
-                                                msgContent={item.type === "TXT" ? item.messageContent : <MsgPicBox imagePath={item.messagefilepath}/>}
-                                            />        
-                                        </MsgBox>
-                                        
-                                    )
-                                })                                        
-                            }
-                            { messageState && <MsgBox id_msg_owner="my-msg" dataKeyMsg={`myMsg-${newMessage.messageId}`} isNew={messageState}>{newMessage.messageContent}</MsgBox> }
-
-                            <div ref={ref} />
-                        </div>
-                        { isTyping && <MsgBox id_msg_owner="orther-msg" dataKeyMsg={'orther-while-typing'} isNew={true}>
-                            <MsgBoxContent 
-                                _picPath={"/images/1662650_1.jpg"}
-                                msgContent={<Dots />}
-                            />
-                        </MsgBox>
-                        }
-                        
-                    </div>
-                    <div className="send-msgsection">
-                        <div className="btn_groups">
-                            <div className="upload-group">
-                                <button className={file ? "btn btn-uploadFile active" : "btn btn-uploadFile"} onClick={handleUploadFile}>
-                                    <FontAwesomeIcon icon="file" size="lg" />  
-                                </button>
-                                <input
-                                    type="file"
-                                    id="upload"
-                                    name='upload_file'
-                                    hidden
-                                    ref={refUploadFIle}
-                                    onChange={onChangeFile}
-                                />
-                                {
-                                    file && <button type="button" className="btn- btn-cancel" onClick={()=>setFile(undefined)}>
-                                                <FontAwesomeIcon icon='times' size='lg'/>
-                                            </button>
-                                }
+                {
+                    CurrentChat !== undefined ? (
+                        <>
+                            <div className="chat-room-header">
+                                <ChatCard currentChat={CurrentChat} />
                             </div>
-                            <button className="btn voice-recorder">
-                                <FontAwesomeIcon icon="microphone" size="lg" />  
-                            </button>
-                        </div>
-                        <Box className="wrap-input100">
-                            <FormControl className="input100" fullWidth>
-                                <TextField fullWidth
-                                    className="searchInput"
-                                    placeholder="Ecrire ici..."
-                                    value={message.messageContent}
-                                    multiline
-                                    maxRows={2}
-                                    onChange={({target: {value}}) =>{
-                                        setMsg({...message, messageContent : value })
-                                    }}
-                                />
-                            </FormControl>
-                        </Box>
-                        <div className="btn_group">
-                            <button className="btn btn-send" onClick={handlePostNewMsg}>
-                                <FontAwesomeIcon icon="paper-plane" size="lg" />  
-                            </button>
-                        </div>
-                    </div>
+                            <div className="chat-room-section">
+                                <div className="msg-box-section">
+                                    {
+                                        ChatMessage?.map((item:Message, index)=>{   
+                                            return(
+                                                parseInt(item.FromUser.userId as unknown as string) === UserLogContext?.userId ?
+                                                <MsgBox id_msg_owner="my-msg" dataKeyMsg={`myMsg-${item.messageId}`} isNew={false} key={index}>
+                                                    {
+                                                        item.type === "IMG" ? <MsgPicBox imagePath={item.messagefilepath}/> : item.messageContent 
+                                                    }
+                                                </MsgBox>
+                                                :
+                                                <MsgBox id_msg_owner="orther-msg" dataKeyMsg={`otherMsg${item.messageId}`} isNew={false} key={index}>
+                                                    <MsgBoxContent 
+                                                        _picPath={MsgOwners? MsgOwners[index] === MsgOwners[index+1] ? "" : item.FromUser.profilpic_path : "" }
+                                                        msgContentType = {item.type}
+                                                        msgContent={item.type === "TXT" ? item.messageContent : <MsgPicBox imagePath={item.messagefilepath}/>}
+                                                    />        
+                                                </MsgBox>
+                                                
+                                            )
+                                        })                                        
+                                    }
+                                    { messageState && <MsgBox id_msg_owner="my-msg" dataKeyMsg={`myMsg-${newMessage.messageId}`} isNew={messageState}>{newMessage.messageContent}</MsgBox> }
+
+                                    <div ref={ref} />
+                                </div>
+                                { isTyping && <MsgBox id_msg_owner="orther-msg" dataKeyMsg={'orther-while-typing'} isNew={true}>
+                                    <MsgBoxContent 
+                                        _picPath={"/images/1662650_1.jpg"}
+                                        msgContent={<Dots />}
+                                    />
+                                </MsgBox>
+                                }
+                                
+                            </div>
+                            <div className="send-msgsection">
+                                <div className="btn_groups">
+                                    <div className="upload-group">
+                                        <button className={file ? "btn btn-uploadFile active" : "btn btn-uploadFile"} onClick={handleUploadFile}>
+                                            <FontAwesomeIcon icon="file" size="lg" />  
+                                        </button>
+                                        <input
+                                            type="file"
+                                            id="upload"
+                                            name='upload_file'
+                                            hidden
+                                            ref={refUploadFIle}
+                                            onChange={onChangeFile}
+                                        />
+                                        {
+                                            file && <button type="button" className="btn- btn-cancel" onClick={()=>setFile(undefined)}>
+                                                        <FontAwesomeIcon icon='times' size='lg'/>
+                                                    </button>
+                                        }
+                                    </div>
+                                    <button className="btn voice-recorder">
+                                        <FontAwesomeIcon icon="microphone" size="lg" />  
+                                    </button>
+                                </div>
+                                <Box className="wrap-input100">
+                                    <FormControl className="input100" fullWidth>
+                                        <TextField fullWidth
+                                            className="searchInput"
+                                            placeholder="Ecrire ici..."
+                                            value={message.messageContent}
+                                            multiline
+                                            maxRows={2}
+                                            onChange={({target: {value}}) =>{
+                                                setMsg({...message, messageContent : value })
+                                            }}
+                                        />
+                                    </FormControl>
+                                </Box>
+                                <div className="btn_group">
+                                    <button className="btn btn-send" onClick={handlePostNewMsg}>
+                                        <FontAwesomeIcon icon="paper-plane" size="lg" />  
+                                    </button>
+                                </div>
+                            </div>
+                        </>
+                    ):
+                    (
+                        <div><span>Tssy e</span></div>
+                    )
+                }
                 </div>
             </div>
         </div>

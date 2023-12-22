@@ -28,3 +28,19 @@ export const DISCUSSION_QUERY = gql`
     }
 
 `
+export const CHAT_QUERY = gql`
+    query ChatQuery($chatId: Int!) {
+        Chat(chatId:$chatId) {
+            chatId
+            chatType
+            chatName
+            chatGroupPic
+            usersSubscribed {
+                userId
+                login
+                profilpic_path
+            }
+        }
+    }
+
+`
