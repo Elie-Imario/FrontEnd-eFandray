@@ -18,6 +18,7 @@ import { CHAT_QUERY, DISCUSSION_QUERY } from "../../requests/userChat.request.gq
 import { CHAT_MESSAGE_QUERY } from "../../requests/message.request.gql";
 import MsgPicBox from "./messageBoxComponent/MsgPicBox";
 import ChatCard from "../../components/chatCard";
+import BlankPage from "../annexePage/blankPage";
 
 type newMsg = {
     messageContent: string,
@@ -54,6 +55,7 @@ const MainPanel = () => {
     //------- Fect Chat By PK ------------------
     const [GetChatById] = useLazyQuery(CHAT_QUERY)
 
+    
     useEffect(()=>{
         if(data){
             setUserChatHistory(data.UserChatHistory)
@@ -280,7 +282,7 @@ const MainPanel = () => {
                         </>
                     ):
                     (
-                        <div><span>Tssy e</span></div>
+                        <BlankPage />
                     )
                 }
                 </div>
