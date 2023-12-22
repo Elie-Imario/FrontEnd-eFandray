@@ -1,0 +1,71 @@
+@import '../../../assets/dist/import';
+
+.ChatGr-Blank-Page{
+    height: 100%;
+    width: 100%;
+    .content{
+        height: 100%;
+        width: 100%;
+        @include flex($direction:column, $align:center, $justify:center);
+        .profile-container{
+            display: flex;
+            .profil-pic {
+                cursor: pointer;
+                transition: .3s;
+                &:not(first-child) {
+                    margin-left: -15px;
+                }
+                &:not(:last-child):hover{
+                    margin-right:15px
+                }
+            }
+            .more-profil-pic{
+                margin-left: -15px;
+                z-index: 5;
+                background: $gray-400;
+                width: 45px;
+                height: 45px;        
+                border-radius: 50%;
+                @include flex($align:center, $justify:center);
+                svg{
+                    font-size: 25px;
+                    color: $gray-500;
+                }
+            }
+        }
+        span{
+            margin-top: 18px;
+            max-width: 400px;
+            text-align: center;
+            @include poppinsType($weight: 400);
+            font-size: 14px;
+            color: $gray-600;
+        }
+        .getStarted-btn-group{
+            margin-top: 35px;
+            width: 100%;
+            @include flex($align:center, $justify:center);
+            .btn{
+              @include plusJakartaSansType($weight: 500);
+              max-width: 196px;
+              width: 100%;
+              font-size: 16px;
+              border-radius: 2em;
+              background: rgba($color: $blue, $alpha: .7);    
+              @include flex($align:center, $justify:center, $gap:10px);
+              padding: 1.25em;
+              height: 50px;
+              cursor: pointer;
+              &.btn-primary{
+                  color: $gray-100;
+                  border: 1px solid rgba($color: $blue, $alpha: .7);
+                  &:hover{
+                      color: #fff;
+                      background: rgba($color: $blue, $alpha: 1);   
+                  }
+              }
+            }
+            
+          }
+    }
+}

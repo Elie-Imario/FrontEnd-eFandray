@@ -2,8 +2,8 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 
 import { 
     faComment, faDoorOpen, faCheckCircle, faPlus, faTimes, faExclamationCircle,
-    faTimesCircle, faUser, faUsers, faPaperPlane, faFile,
-    faChalkboardUser, faCog, faPowerOff, faSearch, faAngleDown, faAngleRight,
+    faTimesCircle, faUser, faUsers, faPaperPlane, faFile, faEllipsis,
+    faCog, faPowerOff, faSearch, faAngleDown, faAngleRight, faRocket,
     faIdBadge, faEnvelope, faPhone, faDownload, faEdit, faMinus, faClock, faCheck,
     faArrowUpRightFromSquare, faSave, faUserCircle, faKey, faPen,
     faCamera, faMicrophone, faUpload, faEye, faEyeSlash, faSignIn
@@ -12,7 +12,7 @@ import {
 
 library.add(
     faComment, faCog, faDoorOpen, faCheckCircle, faPlus, faTimes, faTimesCircle,
-    faUser, faUsers, faPaperPlane, faFile, faChalkboardUser, faCheck,
+    faUser, faUsers, faPaperPlane, faFile, faEllipsis, faCheck, faRocket,
     faPowerOff, faSearch, faAngleDown, faIdBadge, faEnvelope, faPhone, faUpload,
     faDownload, faEdit, faMinus, faArrowUpRightFromSquare, faClock, faAngleRight,
     faSave, faUserCircle, faPen, faCamera, faMicrophone,
