@@ -10,12 +10,12 @@
 body{
   overflow: hidden;
   .main{
-    width: 100%;
     &.view-1{
       position: absolute;
       top: 0;
       left: 0;
       background: $primary;
+      width: 100%;
     }
   }
   .main .bloc-page{

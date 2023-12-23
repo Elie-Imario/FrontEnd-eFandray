@@ -2,47 +2,24 @@
 
 .bloc-page.fullwidth{
     .left-side{
-        max-width: 400px;    
+        max-width: 361px;    
         height: 100vh;
-        width: 100%;
+        width: calc(100% - 81px);
         position: fixed;
         z-index: 999;
         background: $white;
         padding: 1rem;
         top: 0;
-        left: 0;
+        left: 81px;
 
         .header-section{
-            .account-info{
-                @include flex($align: center, $justify: space-between, $gap: 10px);
-                .btn{
-                    border: none;
-                    background: transparent;
-                    cursor: pointer;
-                    background: rgba($color: $gray-300, $alpha: 1);
-                    border-radius: .3rem;
-                    &:hover{                    
-                        background: rgba($color: $blue, $alpha: .7);  
-                        svg{
-                            color: $white;
-                        }  
-                    }   
-                    svg{
-                        @include flex($align: center, $justify:center);
-                        width: 20px;
-                        height: 20px;
-                        padding: 1rem;
-                        color: $gray-700;
-                    }
-                }
-            }
             .searchField{                
-                margin-top: 27px;
+                margin-top: 8px;
             }
         }
 
         .msg-section{
-            margin-top: 25px;
+            margin-top: 32px;
             .msg-tags{
                 @include flex($align: center, $justify: flex-start, $gap: 15px);
                 width: 100%;
@@ -51,15 +28,15 @@
             .message-boxes{
                 height: 60vh;
                 overflow-y: auto;
-                margin-top: 20px;
+                margin-top: 25px;
             }
         }
     }
     .right-side{
         position: relative;
-        width: calc(100% - 400px);
+        width: calc(100% - 442px);
         height: 100vh;
-        margin-left: 400px;
+        margin-left: 442px;
         background: $gray-200;
         .chat-room-header{
             z-index: 999;

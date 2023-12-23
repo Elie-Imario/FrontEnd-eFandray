@@ -1,0 +1,35 @@
+@import '../../assets/dist/import';
+
+.SideBar-section{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    max-width: 81px;
+    width: 100%;
+    .sideBar-bottom-section{
+        height: 100%;
+        padding-bottom: 25px;
+        @include flex($direction: column, $align: center, $justify: flex-end, $gap: 35px);
+        .btn{
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            background: rgba($color: $gray-300, $alpha: 1);
+            border-radius: 50%;
+            &:hover{                    
+                background: rgba($color: $blue, $alpha: .7);  
+                svg{
+                    color: $white;
+                }  
+            }   
+            svg{
+                @include flex($align: center, $justify:center);
+                font-size: 1.5rem;
+                padding: 1rem;
+                color: $gray-600;
+            }
+        }
+ 
+    }
+}

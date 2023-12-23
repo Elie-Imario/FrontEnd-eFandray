@@ -2,11 +2,9 @@ import { useState, useRef, useEffect, useContext, useMemo } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
-import UserCard from '../../components/userCard';
 import Tag from '../../components/tag';
 import MsgBoxItem from "./messageBoxItemComponent/messageBox";
 import { User, Message, Chat } from "../../services/data/dataTypes";
-import './mainPanel.styles.scss';
 import { Box, FormControl } from "@mui/material";
 import MsgBox from "./messageBoxComponent/MsgBox";
 import MsgBoxContent from "./messageBoxComponent/MsgBoxContent";
@@ -20,13 +18,14 @@ import MsgPicBox from "./messageBoxComponent/MsgPicBox";
 import ChatCard from "../../components/chatCard";
 import BlankPage from "../annexePage/blankPage";
 import ChatGroupBlankPage from "../annexePage/chatGroupBlankPage";
+import './chatRoomPage.style.scss'
 
 type newMsg = {
     messageContent: string,
     FromUser: User,
 }
 
-const MainPanel = () => {
+const ChatRoomPage = () => {
     const { UserLogContext } = useContext(AppContext)
 
     const [userchathistory, setUserChatHistory] = useState([])
@@ -132,10 +131,6 @@ const MainPanel = () => {
             <div className="bloc-page fullwidth">
                 <div className="left-side">
                     <div className="header-section">
-                        <div className="account-info">
-                            <UserCard UserName={UserLogContext?.login as string} isOnline={UserLogContext?.status as boolean} Height={81} Width={81} ProfilPicPath={UserLogContext?.profilpic_path as string}/>
-                            <button className='btn btn-settings'><FontAwesomeIcon icon="cog" size="lg" /></button>
-                        </div>
                         <div className="searchField">                 
                             <TextField fullWidth
                                 className="searchInput"
@@ -298,4 +293,4 @@ const MainPanel = () => {
     )
 }
 
-export default MainPanel;
+export default ChatRoomPage;
